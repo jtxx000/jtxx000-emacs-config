@@ -1,0 +1,6 @@
+(global-set-key "\C-p" 'cycle-buffer)
+(global-set-key "\C-z" 'kill-current-buffer)
+(global-set-key "\C-n" 'save-buffer)
+(global-set-key "\C-f" 'find-file)
+(global-set-key "\C-b" 'find-file)
+(global-set-key "\M-1" 'delete-other-windows)
