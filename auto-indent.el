@@ -1,0 +1,56 @@
+(defun forward-char-ignore-indent ()
+  (interactive)
+  (forward-char)
+  (indent-according-to-mode))
+
+(defun beginning-of-line-text ()
+  (interactive)
+  (beginning-of-line)
+  (indent-according-to-mode))
+
+(defun point-at-beginning-of-line-text ()
+  (<= (point)
+      (save-excursion
+        (beginning-of-line-text)
+        (point))))
+
+(defun backward-char-ignore-indent ()
+  (interactive)
+  (if (point-at-beginning-of-line-text)
+      (progn (beginning-of-line)
+             (backward-char)
+             (indent-according-to-mode))
+    (backward-char)))
+
+(defun delete-char-ignore-indent ()
+  (interactive)
+  (if (= (point) (line-end-position))
+      (progn
+        (delete-region (point)
+                       (progn (next-line)
+                              (beginning-of-line-text)
+                              (point)))
+        (indent-according-to-mode))
+    (delete-char 1)))
+
+(defun backward-delete-char-ignore-indent ()
+  (interactive)
+  (if (point-at-beginning-of-line-text)
+      (progn
+        (delete-region (point)
+                       (progn (previous-line)
+                              (end-of-line)
+                              (point)))
+        (indent-according-to-mode))
+        (backward-delete-char-untabify 1)))
+
+(defun auto-indent-hook ()
+  (interactive)
+  (local-set-key [right] 'forward-char-ignore-indent)
+  (local-set-key [left] 'backward-char-ignore-indent)
+  (local-set-key [return] 'newline-and-indent)
+  (local-set-key [delete] 'delete-char-ignore-indent)
+  (local-set-key [backspace] 'backward-delete-char-ignore-indent)
+  (local-set-key [home] 'beginning-of-line-text))
+
+(add-hook 'c-mode-hook 'auto-indent-hook)
