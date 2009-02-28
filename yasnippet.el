@@ -41,4 +41,7 @@
 (add-to-list 'yas/key-syntaxes "{")
 (add-to-list 'yas/key-syntaxes "(")
 (yas/define 'c-mode "{" " {\n$>$0\n}$>")
-(yas/define 'c-mode "if" "if (${1:...})\n$>$0")
+(yas/define 'c-mode "if" "if ($1)\n$>$0")
+(yas/define 'c-mode "for" "for (${1:int i=0}; ${2:i<n}; ${3:i++})\n$>$0")
+(yas/define 'c-mode "while" "while ($1)\n$>$0")
+(yas/define 'c-mode "struct" "struct $1 {\n$>$0\n};$>")
