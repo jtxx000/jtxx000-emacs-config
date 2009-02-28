@@ -13,6 +13,11 @@
 
 (setq show-paren-delay 0)
 (show-paren-mode t)
-
+(setq-default mode-line-format (list "%* %b  "
+                                     (case (coding-system-eol-type buffer-file-coding-system)
+                                       (0 "LF")
+                                       (1 "CRLF")
+                                       (2 "CR"))
+                                     "  %l:%c  %m " minor-mode-alist))
 (setq scroll-step 1)
 (require 'smooth-scrolling)
