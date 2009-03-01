@@ -4,3 +4,7 @@
 (global-set-key "\C-f" 'find-file)
 (global-set-key "\C-b" 'find-file)
 (global-set-key "\M-1" 'delete-other-windows)
+(global-set-key [M-backspace] 'kill-entire-line)
+(global-set-key (kbd "C-'") 'duplicate-line)
+(global-set-key [C-return] 'newline-under)
+(global-set-key (kbd "C-;") 'newline-over)
