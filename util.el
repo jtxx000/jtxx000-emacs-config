@@ -1,3 +1,6 @@
+(defmacro global-set-kbd-key (key cmd)
+  (list 'global-set-key (list 'kbd key) cmd))
+
 (defun delete-first (elt list)
   (if (equal (car list) elt)
       (cdr list)

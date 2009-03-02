@@ -2,8 +2,8 @@
 (add-to-list 'load-path "~/.emacs.d/vendor")
 
 (load-library "visual")
-(load-library "keys")
 (load-library "util")
+(load-library "keys")
 (load-library "misc")
 (load-library "show-paren-offscreen")
 (load-library "auto-indent")
