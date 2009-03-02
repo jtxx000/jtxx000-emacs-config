@@ -44,4 +44,6 @@
                        ("struct" "struct $1 {\n$>$0\n};$>")))
 
 (yas/define-snippets 'c-mode '() 'cc-mode)
-(yas/define-snippets 'c++-mode '() 'cc-mode)
+(yas/define-snippets 'c++-mode
+                     '(("class" "class $1 {\npublic:$>\n$>$0\n};$>"))
+                     'cc-mode)
