@@ -11,4 +11,4 @@
 (load "haskell-mode-2.4/haskell-site-file.el")
 (autoload 'cycle-buffer "cycle-buffer" "Cycle forward." t)
 (require 'anything-config)
-(load-library "yasnippet")
+(load-library "site-yasnippet")

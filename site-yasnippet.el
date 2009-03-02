@@ -1,6 +1,6 @@
 (setq yas/dont-activate t)
 (setq yas/trigger-key (kbd "SPC"))
-(require 'yasnippet-bundle)
+(require 'yasnippet)
 
 (defun yas/add-trigger-key (key)
   (lexical-let ((key* key))
@@ -35,9 +35,13 @@
 
 (add-hook 'c-mode-common-hook 'yas/minor-mode-on)
 
-(add-hook 'c-mode-hook '(lambda () (local-set-key "{" 'insert-brackets)))
+(add-hook 'c-mode-common-hook '(lambda () (local-set-key "{" 'insert-brackets)))
 
-(yas/define 'c-mode "if" "if ($1)\n$>$0")
-(yas/define 'c-mode "for" "for (${1:int i=0}; ${2:i<n}; ${3:i++})\n$>$0")
-(yas/define 'c-mode "while" "while ($1)\n$>$0")
-(yas/define 'c-mode "struct" "struct $1 {\n$>$0\n};$>")
+(yas/define-snippets 'cc-mode
+                     '(("if" "if ($1)\n$>$0")
+                       ("for" "for (${1:int i=0}; ${2:i<n}; ${3:i++})\n$>$0")
+                       ("while" "while ($1)\n$>$0")
+                       ("struct" "struct $1 {\n$>$0\n};$>")))
+
+(yas/define-snippets 'c-mode '() 'cc-mode)
+(yas/define-snippets 'c++-mode '() 'cc-mode)
