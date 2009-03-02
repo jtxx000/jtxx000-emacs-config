@@ -13,9 +13,12 @@
 
 (defun auto-indent/point-at-beginning-of-line-text ()
   (<= (point)
-      (save-excursion
+      (let ((old-p (point-marker)))
+        (set-marker-insertion-type old-p t)
         (auto-indent/beginning-of-line)
-        (point))))
+        (let ((p (point)))
+          (goto-char old-p)
+          p))))
 
 (defun auto-indent/delete-char ()
   (interactive)
@@ -41,7 +44,7 @@
 (make-variable-buffer-local 'auto-indent/last-line)
 
 (defun auto-indent/pre-command ()
-  (setq auto-indent/last-line (line-beginning-position)))
+  (setq auto-indent/last-line (copy-marker (line-beginning-position))))
 
 (defun auto-indent/post-command ()
   (if (/= auto-indent/last-line (line-beginning-position))
