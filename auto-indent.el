@@ -47,13 +47,16 @@
   (setq auto-indent/last-line (copy-marker (line-beginning-position))))
 
 (defun auto-indent/post-command ()
-  (if (/= auto-indent/last-line (line-beginning-position))
-      (progn
-        (save-excursion
-          (goto-char auto-indent/last-line)
-          (if (string-match "^[ \t]+$" (buffer-substring (point) (line-end-position)))
-              (delete-region (point) (line-end-position))))
-        (indent-according-to-mode))))
+  (let ((mod (buffer-modified-p)))
+    (if (/= auto-indent/last-line (line-beginning-position))
+        (progn
+          (save-excursion
+            (goto-char auto-indent/last-line)
+            (if (string-match "^[ \t]+$" (buffer-substring (point) (line-end-position)))
+                (delete-region (point) (line-end-position))))
+          (if (string-match "^[ \t]*$" (buffer-substring (line-beginning-position) (line-end-position)))
+              (indent-according-to-mode))))
+    (set-buffer-modified-p mod)))
 
 (defun auto-indent-hook ()
   (interactive)

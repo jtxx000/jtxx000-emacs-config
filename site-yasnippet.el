@@ -37,13 +37,20 @@
 
 (add-hook 'c-mode-common-hook '(lambda () (local-set-key "{" 'insert-brackets)))
 
-(yas/define-snippets 'cc-mode
+(yas/define-snippets 'c-esque-mode
                      '(("if" "if ($1)\n$>$0")
                        ("for" "for (${1:int i=0}; ${2:i<n}; ${3:i++})\n$>$0")
-                       ("while" "while ($1)\n$>$0")
-                       ("struct" "struct $1 {\n$>$0\n};$>")))
+                       ("while" "while ($1)\n$>$0")))
+
+(yas/define-snippets 'cc-mode '(("struct" "struct $1 {\n$>$0\n};$>")) 'c-eqsue-mode)
+
+(yas/define-snippets 'd-mode
+                     '(("class" "class $1 {\npublic:$>\n$>$0\n}$>")
+                       ("foreach" "foreach (${1:i}, ${2:e}; ${3:arr})\n$>$0"))
+                     'c-esque-mode)
 
 (yas/define-snippets 'c-mode '() 'cc-mode)
+
 (yas/define-snippets 'c++-mode
                      '(("class" "class $1 {\npublic:$>\n$>$0\n};$>"))
                      'cc-mode)
