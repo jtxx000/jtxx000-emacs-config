@@ -40,4 +40,6 @@
      (minibuffer-prompt ((t (:foreground "#729fcf" :bold t))))
      (info-xref ((t (:foreground "#729fcf"))))
      (info-xref-visited ((t (:foreground "#ad7fa8"))))
+     (flyspell-incorrect ((t (:foreground "#ef2929" :bold nil :underline nil))))
+     (flyspell-duplicate ((t (:foreground "#fcaf3e" :bold nil :underline nil))))
      )))
