@@ -13,6 +13,7 @@
 (autoload 'cycle-buffer "cycle-buffer" "Cycle forward." t)
 (require 'anything-config)
 (load-library "site-yasnippet")
+(load-library "site-rst")
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
