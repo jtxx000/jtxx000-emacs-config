@@ -48,6 +48,13 @@
 (defun auto-indent/pre-command ()
   (setq auto-indent/last-line (copy-marker (line-beginning-position))))
 
+(defun auto-indent/is-whitespace (x y &optional match-empty)
+  (string-match
+   (concat "^[ \t]"
+           (if match-empty "*" "+")
+           "$")
+   (buffer-substring x y)))
+
 (defun auto-indent/post-command ()
   (let ((mod (buffer-modified-p))
         (buffer-undo-list t)
@@ -62,10 +69,12 @@
         (progn
           (save-excursion
             (goto-char auto-indent/last-line)
-            (if (string-match "^[ \t]+$" (buffer-substring (point) (line-end-position)))
+            (if (auto-indent/is-whitespace (point) (line-end-position))
                 (delete-region (point) (line-end-position))))
-          (if (string-match "^[ \t]*$" (buffer-substring (line-beginning-position) (point)))
-              (auto-indent/beginning-of-line))))
+          (if (auto-indent/is-whitespace (line-beginning-position) (point) t)
+              (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position) t)
+                  (indent-according-to-mode)
+                (auto-indent/beginning-of-line)))))
     (and (not mod)
          (buffer-modified-p)
          (set-buffer-modified-p nil))))
