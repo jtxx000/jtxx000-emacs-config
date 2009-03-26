@@ -9,7 +9,9 @@
 (defun auto-indent/beginning-of-line ()
   (interactive)
   (beginning-of-line)
-  (indent-according-to-mode))
+  (save-match-data
+    (search-forward-regexp "[^ \\t]")
+    (backward-char)))
 
 (defun auto-indent/point-at-beginning-of-line-text ()
   (<= (point)
@@ -47,16 +49,26 @@
   (setq auto-indent/last-line (copy-marker (line-beginning-position))))
 
 (defun auto-indent/post-command ()
-  (let ((mod (buffer-modified-p)))
+  (let ((mod (buffer-modified-p))
+        (buffer-undo-list t)
+        (inhibit-read-only t)
+        (inhibit-point-motion-hooks t)
+        before-change-functions
+        after-change-functions
+        deactivate-mark
+        buffer-file-name
+        buffer-file-truename)
     (if (/= auto-indent/last-line (line-beginning-position))
         (progn
           (save-excursion
             (goto-char auto-indent/last-line)
             (if (string-match "^[ \t]+$" (buffer-substring (point) (line-end-position)))
                 (delete-region (point) (line-end-position))))
-          (if (string-match "^[ \t]*$" (buffer-substring (line-beginning-position) (line-end-position)))
-              (indent-according-to-mode))))
-    (set-buffer-modified-p mod)))
+          (if (string-match "^[ \t]*$" (buffer-substring (line-beginning-position) (point)))
+              (auto-indent/beginning-of-line))))
+    (and (not mod)
+         (buffer-modified-p)
+         (set-buffer-modified-p nil))))
 
 (defun auto-indent-hook ()
   (interactive)
