@@ -2,8 +2,7 @@
   (interactive)
   (if (auto-indent/point-at-beginning-of-line-text)
       (progn (beginning-of-line)
-             (backward-char)
-             (indent-according-to-mode))
+             (backward-char))
     (backward-char)))
 
 (defun auto-indent/beginning-of-line ()
@@ -39,19 +38,23 @@
         (delete-region (point)
                        (progn (previous-line)
                               (end-of-line)
-                              (point))))
+                              (point)))
+        (if (auto-indent/is-whitespace (line-beginning-position) (point))
+            (indent-according-to-mode)))
     (backward-delete-char-untabify 1)))
 
 (defvar auto-indent/last-line 1)
 (make-variable-buffer-local 'auto-indent/last-line)
 
+(defvar auto-indent/line-change-hook '())
+
 (defun auto-indent/pre-command ()
   (setq auto-indent/last-line (copy-marker (line-beginning-position))))
 
-(defun auto-indent/is-whitespace (x y &optional match-empty)
+(defun auto-indent/is-whitespace (x y &optional no-empty)
   (string-match
    (concat "^[ \t]"
-           (if match-empty "*" "+")
+           (if no-empty "+" "*")
            "$")
    (buffer-substring x y)))
 
@@ -69,12 +72,13 @@
         (progn
           (save-excursion
             (goto-char auto-indent/last-line)
-            (if (auto-indent/is-whitespace (point) (line-end-position))
+            (if (auto-indent/is-whitespace (point) (line-end-position) t)
                 (delete-region (point) (line-end-position))))
-          (if (auto-indent/is-whitespace (line-beginning-position) (point) t)
-              (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position) t)
+          (if (auto-indent/is-whitespace (line-beginning-position) (point))
+              (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position))
                   (indent-according-to-mode)
-                (auto-indent/beginning-of-line)))))
+                (auto-indent/beginning-of-line)))
+          (run-hooks 'auto-indent/line-change-hook)))
     (and (not mod)
          (buffer-modified-p)
          (set-buffer-modified-p nil))))
