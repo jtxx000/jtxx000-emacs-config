@@ -9,8 +9,8 @@
   (interactive)
   (beginning-of-line)
   (save-match-data
-    (search-forward-regexp "[^ \\t]")
-    (backward-char)))
+    (if (search-forward-regexp "[^ \t]" nil t)
+        (backward-char))))
 
 (defun auto-indent/point-at-beginning-of-line-text ()
   (<= (point)
@@ -42,6 +42,25 @@
         (if (auto-indent/is-whitespace (line-beginning-position) (point))
             (indent-according-to-mode)))
     (backward-delete-char-untabify 1)))
+
+
+(defun auto-indent/open-line ()
+  (interactive)
+  (save-excursion
+    (newline)
+    (indent-according-to-mode)))
+
+(defun auto-indent/yank ()
+  (interactive)
+  (setq this-command 'yank)
+  (yank)
+  (indent-region (mark) (point)))
+
+(defun auto-indent/yank-pop ()
+  (interactive)
+  (setq this-command 'yank)
+  (yank-pop)
+  (indent-region (mark) (point)))
 
 (defvar auto-indent/last-line 1)
 (make-variable-buffer-local 'auto-indent/last-line)
@@ -90,6 +109,9 @@
   (local-set-key [delete] 'auto-indent/delete-char)
   (local-set-key [backspace] 'auto-indent/backward-delete-char)
   (local-set-key [home] 'auto-indent/beginning-of-line)
+  (local-set-key (kbd "C-o") 'auto-indent/open-line)
+  (local-set-key (kbd "C-y") 'auto-indent/yank)
+  (local-set-key (kbd "M-y") 'auto-indent/yank-pop)
   (add-hook 'pre-command-hook 'auto-indent/pre-command nil t)
   (add-hook 'post-command-hook 'auto-indent/post-command nil t))
 
