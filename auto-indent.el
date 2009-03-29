@@ -9,7 +9,7 @@
   (interactive)
   (beginning-of-line)
   (save-match-data
-    (search-forward-regexp "[^ \\t]")
+    (search-forward-regexp "[^ \t]")
     (backward-char)))
 
 (defun auto-indent/point-at-beginning-of-line-text ()
