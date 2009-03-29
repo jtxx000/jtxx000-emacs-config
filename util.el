@@ -41,3 +41,6 @@
   (beginning-of-line)
   (split-line)
   (indent-according-to-mode))
+
+(defun system-is-osx ()
+  (string-match "apple" system-configuration))

@@ -70,3 +70,4 @@
 
 (add-hook 'c-mode-common-hook 'auto-indent-hook)
 (add-hook 'emacs-lisp-mode-hook 'auto-indent-hook)
+(add-hook 'ruby-mode-hook 'auto-indent-hook)
