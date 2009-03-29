@@ -8,6 +8,7 @@
 (load-library "show-paren-offscreen")
 (load-library "auto-indent")
 (load-library "site-c-esque")
+(load-library "time-mode")
 
 (load "haskell-mode-2.4/haskell-site-file.el")
 (autoload 'cycle-buffer "cycle-buffer" "Cycle forward." t)
@@ -17,3 +18,4 @@
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
+(add-to-list 'auto-mode-alist '("\\work-hours\\'" . time-mode))
