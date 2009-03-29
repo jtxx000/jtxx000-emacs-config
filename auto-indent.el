@@ -2,14 +2,15 @@
   (interactive)
   (if (auto-indent/point-at-beginning-of-line-text)
       (progn (beginning-of-line)
-             (backward-char)
-             (indent-according-to-mode))
+             (backward-char))
     (backward-char)))
 
 (defun auto-indent/beginning-of-line ()
   (interactive)
   (beginning-of-line)
-  (indent-according-to-mode))
+  (save-match-data
+    (search-forward-regexp "[^ \\t]")
+    (backward-char)))
 
 (defun auto-indent/point-at-beginning-of-line-text ()
   (<= (point)
@@ -37,26 +38,50 @@
         (delete-region (point)
                        (progn (previous-line)
                               (end-of-line)
-                              (point))))
+                              (point)))
+        (if (auto-indent/is-whitespace (line-beginning-position) (point))
+            (indent-according-to-mode)))
     (backward-delete-char-untabify 1)))
 
 (defvar auto-indent/last-line 1)
 (make-variable-buffer-local 'auto-indent/last-line)
 
+(defvar auto-indent/line-change-hook '())
+
 (defun auto-indent/pre-command ()
   (setq auto-indent/last-line (copy-marker (line-beginning-position))))
 
+(defun auto-indent/is-whitespace (x y &optional no-empty)
+  (string-match
+   (concat "^[ \t]"
+           (if no-empty "+" "*")
+           "$")
+   (buffer-substring x y)))
+
 (defun auto-indent/post-command ()
-  (let ((mod (buffer-modified-p)))
+  (let ((mod (buffer-modified-p))
+        (buffer-undo-list t)
+        (inhibit-read-only t)
+        (inhibit-point-motion-hooks t)
+        before-change-functions
+        after-change-functions
+        deactivate-mark
+        buffer-file-name
+        buffer-file-truename)
     (if (/= auto-indent/last-line (line-beginning-position))
         (progn
           (save-excursion
             (goto-char auto-indent/last-line)
-            (if (string-match "^[ \t]+$" (buffer-substring (point) (line-end-position)))
+            (if (auto-indent/is-whitespace (point) (line-end-position) t)
                 (delete-region (point) (line-end-position))))
-          (if (string-match "^[ \t]*$" (buffer-substring (line-beginning-position) (line-end-position)))
-              (indent-according-to-mode))))
-    (set-buffer-modified-p mod)))
+          (if (auto-indent/is-whitespace (line-beginning-position) (point))
+              (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position))
+                  (indent-according-to-mode)
+                (auto-indent/beginning-of-line)))
+          (run-hooks 'auto-indent/line-change-hook)))
+    (and (not mod)
+         (buffer-modified-p)
+         (set-buffer-modified-p nil))))
 
 (defun auto-indent-hook ()
   (interactive)

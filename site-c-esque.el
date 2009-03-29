@@ -21,9 +21,23 @@
     (previous-line)
     (indent-according-to-mode)))
 
+(defun c-esque/end-of-line ()
+  (interactive)
+  (end-of-line)
+  (c-esque/confine-to-line-end))
+
+(defun c-esque/confine-to-line-end ()
+  (interactive)
+  (and (= (point) (line-end-position))
+       (/= (point) 1)
+       (string= (buffer-substring (point) (1- (point))) ";")
+       (backward-char)))
+
 (defun c-esque-init ()
   (local-set-key "{" 'insert-brackets)
   (flyspell-prog-mode)
-  (auto-fill-mode))
+  (auto-fill-mode)
+  (local-set-key [end] 'c-esque/end-of-line)
+  (add-hook 'auto-indent/line-change-hook 'c-esque/confine-to-line-end nil t))
 
 (add-hook 'c-mode-common-hook 'c-esque-init)
