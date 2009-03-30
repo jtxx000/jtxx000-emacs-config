@@ -15,6 +15,7 @@
 (require 'anything-config)
 (load-library "site-yasnippet")
 (load-library "site-rst")
+(require 'haml-mode)
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
