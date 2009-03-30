@@ -45,3 +45,10 @@
 (defun parse-time (s)
   (apply 'encode-time
          (loop repeat 6 for x in (parse-time-string s) collect (or x 0))))
+
+(defun is-horizontal-whitespace (s)
+  (string-match "\\`[\n\t ]*\\'" s))
+
+(defun is-current-line-whitespace ()
+  (is-horizontal-whitespace (buffer-substring (line-beginning-position)
+                                              (line-end-position))))
