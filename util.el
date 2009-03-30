@@ -44,3 +44,7 @@
 
 (defun system-is-osx ()
   (string-match "apple" system-configuration))
+
+(defun parse-time (s)
+  (apply 'encode-time
+         (loop repeat 6 for x in (parse-time-string s) collect (or x 0))))
