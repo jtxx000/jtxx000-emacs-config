@@ -118,6 +118,5 @@
   (add-hook 'pre-command-hook 'auto-indent/pre-command nil t)
   (add-hook 'post-command-hook 'auto-indent/post-command nil t))
 
-(add-hook 'c-mode-common-hook 'auto-indent-hook)
 (add-hook 'emacs-lisp-mode-hook 'auto-indent-hook)
 (add-hook 'ruby-mode-hook 'auto-indent-hook)
