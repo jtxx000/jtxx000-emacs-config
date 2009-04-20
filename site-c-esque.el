@@ -21,6 +21,11 @@
     (previous-line)
     (indent-according-to-mode)))
 
+(defun c-esque/is-at-end-of-line ()
+  (and (= (point) (line-end-position))
+        (/= (point) 1)
+        (string= (buffer-substring (point) (1- (point))) ";")))
+
 (defun c-esque/end-of-line ()
   (interactive)
   (end-of-line)
@@ -28,16 +33,31 @@
 
 (defun c-esque/confine-to-line-end ()
   (interactive)
-  (and (= (point) (line-end-position))
-       (/= (point) 1)
-       (string= (buffer-substring (point) (1- (point))) ";")
-       (backward-char)))
+  (if (c-esque/is-at-end-of-line) (backward-char)))
+
+(defun c-esque/forward-char ()
+  (interactive)
+  (forward-char)
+  (if (c-esque/is-at-end-of-line)
+      (forward-char)))
+
+(defun c-esque/newline ()
+  (interactive)
+  (if (or (= (point) (point-max))
+          (save-excursion (forward-char) (c-esque/is-at-end-of-line)))
+      (newline-under)
+    (newline-and-indent)))
 
 (defun c-esque-init ()
   (local-set-key "{" 'insert-brackets)
   (flyspell-prog-mode)
   (auto-fill-mode)
   (local-set-key [end] 'c-esque/end-of-line)
+  (if (system-is-osx)
+      (local-set-key (kbd "A-<right>") 'c-esque/end-of-line))
+  (local-set-key [right] 'c-esque/forward-char)
+  (local-set-key [return] 'c-esque/newline)
   (add-hook 'auto-indent/line-change-hook 'c-esque/confine-to-line-end nil t))
 
 (add-hook 'c-mode-common-hook 'c-esque-init)
+(add-hook 'c-mode-common-hook 'auto-indent-hook)
