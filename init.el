@@ -15,9 +15,10 @@
 (require 'anything-config)
 (load-library "site-yasnippet")
 (load-library "site-rst")
+(load-library "site-io")
 (require 'haml-mode)
-(require 'io-mode)
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
+(add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\work-hours\\'" . time-mode))
