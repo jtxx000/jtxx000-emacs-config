@@ -10,7 +10,8 @@
   (beginning-of-line)
   (save-match-data
     (if (search-forward-regexp "[^ \t]" nil t)
-        (backward-char))))
+        (backward-char)
+      (indent-according-to-mode))))
 
 (defun auto-indent/point-at-beginning-of-line-text ()
   (<= (point)
@@ -120,3 +121,4 @@
 
 (add-hook 'emacs-lisp-mode-hook 'auto-indent-hook)
 (add-hook 'ruby-mode-hook 'auto-indent-hook)
+(add-hook 'org-mode-hook 'auto-indent-hook)

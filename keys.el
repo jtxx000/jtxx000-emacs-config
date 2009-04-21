@@ -12,6 +12,12 @@
 (global-set-kbd-key "C-)"           'kmacro-end-macro)
 (global-set-kbd-key "C-*"           'kmacro-end-and-call-macro)
 
+(global-set-kbd-key "S-<up>"        'backward-up-list)
+(global-set-kbd-key "S-<down>"      'down-list)
+(global-set-kbd-key "S-<left>"      'backward-sexp)
+(global-set-kbd-key "S-<right>"     'forward-sexp)
+
+
 (if (not (system-is-osx))
     (global-set-kbd-key "M-<backspace>" 'kill-entire-line))
 
