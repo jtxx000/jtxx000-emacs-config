@@ -55,3 +55,6 @@
 (defun is-current-line-whitespace ()
   (is-horizontal-whitespace (buffer-substring (line-beginning-position)
                                               (line-end-position))))
+(defun kill-ring-save-buffer ()
+  (interactive)
+  (kill-ring-save (point-min) (point-max)))
