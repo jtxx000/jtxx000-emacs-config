@@ -2,42 +2,26 @@
   (interactive)
   (insert (format-time-string "%Y-%m-%d %H:%M" (or time (current-time)))))
 
-(defun time-mode-get-increment (last x)
-  (seconds-to-time
-   (+ (* 60 6 x)
-      (time-to-seconds last))))
-
 (defun time-mode-update ()
   (interactive)
-  (unless (is-current-line-whitespace)
-    (forward-paragraph)
-    (unless (is-current-line-whitespace)
+  (if (and (is-current-line-whitespace)
+           (save-excursion (forward-line -1) (is-current-line-whitespace)))
+      (time-mode-insert-time)
+    (save-excursion
+      (backward-paragraph)
+      (if (is-current-line-whitespace)
+          (forward-line 1))
+      (when (search-forward-regexp "^[^ ]+ [^ ]+\\( - \\)" (line-end-position) t)
+        (backward-char 3)
+        (delete-region (point) (line-end-position)))
       (end-of-line)
-      (newline)))
-  (let ((last-time (buffer-substring (save-excursion
-                                       (forward-line -1)
-                                       (line-beginning-position))
-                                     (line-beginning-position))))
-    (if (is-horizontal-whitespace last-time)
-        (progn (insert "*")
-               (time-mode-insert-time))
-      (let ((last (parse-time last-time))
-            (cur (current-time)))
-        (if (and (string= (substring last-time 0 1) "*")
-                 (time-less-p (time-mode-get-increment last 1) cur))
-            (save-excursion (forward-line -1)
-                            (line-beginning-position)
-                            (delete-char 1)))
-        (loop for x from 1
-              while (time-less-p (time-mode-get-increment last (1+ x)) cur)
-              do (progn
-                   (if (/= x 1) (newline))
-                   (time-mode-insert-time (time-mode-get-increment last x))))))))
+      (insert " - ")
+      (time-mode-insert-time))))
 
 (defun time-mode ()
   (interactive)
   (fundamental-mode)
-  (local-set-key (kbd "<tab>") 'insert-time))
+  (local-set-key (kbd "<tab>") 'time-mode-update))
 
 (define-derived-mode time-mode text-mode "Time")
 
