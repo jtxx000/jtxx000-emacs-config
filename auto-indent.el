@@ -29,7 +29,9 @@
         (delete-region (point)
                        (progn (next-line)
                               (auto-indent/beginning-of-line)
-                              (point))))
+                              (point)))
+
+        (indent-according-to-mode))
     (delete-char 1)))
 
 (defun auto-indent/backward-delete-char ()
