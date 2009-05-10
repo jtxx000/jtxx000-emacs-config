@@ -11,11 +11,16 @@
 (global-set-kbd-key "C-("           'kmacro-start-macro)
 (global-set-kbd-key "C-)"           'kmacro-end-macro)
 (global-set-kbd-key "C-*"           'kmacro-end-and-call-macro)
+(global-set-kbd-key "M-2"           'kill-ring-save-buffer)
 
 (global-set-kbd-key "S-<up>"        'backward-up-list)
 (global-set-kbd-key "S-<down>"      'down-list)
 (global-set-kbd-key "S-<left>"      'backward-sexp)
 (global-set-kbd-key "S-<right>"     'forward-sexp)
+(global-set-kbd-key "S-<delete>"    'kill-sexp)
+(global-set-kbd-key "S-<backspace>" 'backward-kill-sexp)
+(global-set-kbd-key "M-9"           'insert-parentheses)
+(global-set-kbd-key "M-0"           'move-past-close-and-reindent)
 
 
 (if (not (system-is-osx))
