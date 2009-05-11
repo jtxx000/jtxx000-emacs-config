@@ -16,6 +16,6 @@
 (setq-default mode-line-format (list '(:eval
                                       (if buffer-read-only "-"
                                         (if (buffer-modified-p) "*" " ")))
-                                     " %b  %l:%c  %m " minor-mode-alist))
+                                     " %b  %l:%c  %m " minor-mode-alist " " 'global-mode-string))
 (setq scroll-step 1)
 (require 'smooth-scrolling)
