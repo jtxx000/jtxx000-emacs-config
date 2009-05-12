@@ -1,51 +1,58 @@
-(defun time-mode-insert-time (&optional time)
-  (interactive)
-  (insert (format-time-string "%Y-%m-%d %H:%M" (or time (current-time)))))
+(defun time-mode-format-time (&optional time)
+  (format-time-string "%Y-%m-%d %H:%M" (or time (current-time))))
 
-(defun time-mode-forward-time ()
-  (search-forward-regexp "^[^ ]+ [^ ]+\\( - \\)" (line-end-position) t))
+(defvar time-mode-regexp
+  (let* ((m (concat
+             "\\([[:digit:]]\\{4\\}-[[:digit:]]\\{2\\}-[[:digit:]]\\{2\\}"
+             " "
+             "[[:digit:]]\\{2\\}:[[:digit:]]\\{2\\}\\)")))
+    (concat "^" m "\\( - " m "\\)?$")))
 
-(defun time-mode-parse-time (b e)
-  (time-to-seconds (parse-time (buffer-substring b e))))
+(defun time-mode-parse-time (i)
+  (time-to-seconds (parse-time (match-string i))))
 
 (defun time-mode-format-range (r)
-  (if r
-    (let ((r (/ r 60)))
-      (if (< r 60)
-          (format "%dm" r)
-        (format "%.1fh" (/ r 60))))
-    "-"))
+  (let ((r (/ r 60)))
+    (if (< r 60)
+        (format "%dm" r)
+      (format "%.1fh" (/ r 60)))))
 
 (defun time-mode-parse-range ()
-  (when (time-mode-forward-time)
-    (- (time-mode-parse-time (point) (line-end-position))
-       (time-mode-parse-time (line-beginning-position) (point)))))
+  (if (match-string 3)
+      (- (time-mode-parse-time 3) (time-mode-parse-time 1))
+    0))
 
 (defun time-mode-parse-cur-range ()
-  (beginning-of-paragraph)
-  (time-mode-parse-range))
+  (end-of-line)
+  (if (search-backward-regexp time-mode-regexp nil t)
+      (time-mode-parse-range)
+    0))
 
 (defun time-mode-parse-sum ()
   (beginning-of-buffer)
-  (loop while (next-paragraph)
-        for x = (time-mode-parse-cur-range)
-        do (forward-paragraph)
-        if x
-        sum x))
+  (loop while (search-forward-regexp time-mode-regexp nil t)
+        sum (time-mode-parse-range)
+        do (end-of-line)))
 
 (defun time-mode-update ()
   (interactive)
-  (if (and (is-current-line-whitespace)
-           (save-excursion (forward-line -1) (is-current-line-whitespace)))
-      (time-mode-insert-time)
-    (save-excursion
-      (beginning-of-paragraph)
-      (when (time-mode-forward-time)
-        (backward-char 3)
-        (delete-region (point) (line-end-position)))
-      (end-of-line)
-      (insert " - ")
-      (time-mode-insert-time))))
+  (let ((cur-time (time-mode-format-time)))
+    (if (and (is-current-line-whitespace)
+             (save-excursion (forward-line -1) (is-current-line-whitespace)))
+        (insert cur-time)
+      (let ((beg (line-beginning-position))
+            (goto-point (point)))
+        (end-of-line)
+        (search-backward-regexp time-mode-regexp)
+        (unless (or (string= (match-string 1) cur-time)
+                    (string= (match-string 3) cur-time))
+          (when (match-string 3)
+            (delete-region (match-end 1) (line-end-position)))
+          (end-of-line)
+          (insert " - " cur-time)
+          (if (= beg (line-beginning-position))
+            (setq goto-point (line-end-position))))
+        (goto-char goto-point)))))
 
 (defun time-mode-update-mode-line ()
   (save-excursion
@@ -62,8 +69,12 @@
 
 (defvar time-mode-string "")
 
+(defvar time-mode-keywords
+  `((,time-mode-regexp . font-lock-function-name-face)))
+
 (define-derived-mode time-mode text-mode "Time"
   "A mode for keeping track of hours worked."
+  (setq font-lock-defaults '(time-mode-keywords))
   (or global-mode-string (setq global-mode-string '("")))
   (unless (memq 'display-time-string global-mode-string)
     (make-variable-buffer-local 'global-mode-string)
