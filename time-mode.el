@@ -41,7 +41,7 @@
              (save-excursion (forward-line -1) (is-current-line-whitespace)))
         (insert cur-time)
       (let ((beg (line-beginning-position))
-            (goto-point (point)))
+            (goto-point (point-marker)))
         (end-of-line)
         (search-backward-regexp time-mode-regexp)
         (unless (or (string= (match-string 1) cur-time)
