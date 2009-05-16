@@ -16,6 +16,7 @@
 (load-library "site-yasnippet")
 (load-library "site-rst")
 (load-library "site-io")
+(load-library "site-python")
 (require 'haml-mode)
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
