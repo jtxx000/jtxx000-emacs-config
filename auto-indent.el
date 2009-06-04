@@ -57,13 +57,13 @@
   (interactive)
   (setq this-command 'yank)
   (yank)
-  (indent-region (mark) (point)))
+  (indent-region (mark t) (point)))
 
 (defun auto-indent/yank-pop ()
   (interactive)
   (setq this-command 'yank)
   (yank-pop)
-  (indent-region (mark) (point)))
+  (indent-region (mark t) (point)))
 
 (defvar auto-indent/last-line 1)
 (make-variable-buffer-local 'auto-indent/last-line)
