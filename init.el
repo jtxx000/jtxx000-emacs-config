@@ -1,6 +1,8 @@
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/vendor")
 
+(server-start)
+
 (load-library "visual")
 (load-library "util")
 (load-library "keys")
@@ -9,6 +11,7 @@
 (load-library "auto-indent")
 (load-library "site-c-esque")
 (load-library "time-mode")
+(load-library "notes-mode")
 
 (load "haskell-mode-2.4/haskell-site-file.el")
 (autoload 'cycle-buffer "cycle-buffer" "Cycle forward." t)
@@ -17,7 +20,9 @@
 (load-library "site-rst")
 (load-library "site-io")
 (load-library "site-python")
+(load-library "site-cpp")
 (require 'haml-mode)
+(require 'paredit)
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
