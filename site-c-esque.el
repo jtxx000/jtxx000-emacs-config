@@ -28,8 +28,11 @@
 
 (defun c-esque/end-of-line ()
   (interactive)
-  (end-of-line)
-  (c-esque/confine-to-line-end))
+  (let ((old-point (point)))
+    (end-of-line)
+    (c-esque/confine-to-line-end)
+    (if (<= (point) old-point)
+        (end-of-line))))
 
 (defun c-esque/confine-to-line-end ()
   (interactive)
