@@ -29,7 +29,7 @@
     0))
 
 (defun time-mode-parse-sum ()
-  (beginning-of-buffer)
+  (goto-char (point-min))
   (loop while (search-forward-regexp time-mode-regexp nil t)
         sum (time-mode-parse-range)
         do (end-of-line)))
@@ -59,8 +59,8 @@
     (setq time-mode-string
           (concat (time-mode-format-range (time-mode-parse-cur-range))
                   "/"
-                  (time-mode-format-range (time-mode-parse-sum)))))
-  (force-mode-line-update))
+                  (time-mode-format-range (time-mode-parse-sum))))
+    (force-mode-line-update)))
 
 (defun time-mode ()
   (interactive)
