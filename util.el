@@ -58,3 +58,7 @@
 (defun kill-ring-save-buffer ()
   (interactive)
   (kill-ring-save (point-min) (point-max)))
+
+(defun kill-ring-save-line ()
+  (interactive)
+  (kill-ring-save (line-beginning-position) (line-end-position)))
