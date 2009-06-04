@@ -81,29 +81,39 @@
    (buffer-substring x y)))
 
 (defun auto-indent/post-command ()
-  (let ((mod (buffer-modified-p))
-        (buffer-undo-list t)
-        (inhibit-read-only t)
-        (inhibit-point-motion-hooks t)
-        before-change-functions
-        after-change-functions
-        deactivate-mark
-        buffer-file-name
-        buffer-file-truename)
-    (if (/= auto-indent/last-line (line-beginning-position))
-        (progn
-          (save-excursion
-            (goto-char auto-indent/last-line)
-            (if (auto-indent/is-whitespace (point) (line-end-position) t)
-                (delete-region (point) (line-end-position))))
-          (if (auto-indent/is-whitespace (line-beginning-position) (point))
-              (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position))
-                  (indent-according-to-mode)
-                (auto-indent/beginning-of-line)))
-          (run-hooks 'auto-indent/line-change-hook)))
-    (and (not mod)
-         (buffer-modified-p)
-         (set-buffer-modified-p nil))))
+  (unless undo-in-progress
+    (let ((undo-list buffer-undo-list)
+          (in-undo-block (car buffer-undo-list)))
+      (let ((mod (buffer-modified-p))
+            (buffer-undo-list (if in-undo-block
+                                  buffer-undo-list
+                                (cdr buffer-undo-list)))
+            (inhibit-read-only t)
+            (inhibit-point-motion-hooks t)
+            before-change-functions
+            after-change-functions
+            deactivate-mark
+            buffer-file-name
+            buffer-file-truename)
+        (if (and (/= auto-indent/last-line (line-beginning-position))
+                 (not (eq this-command 'undo)))
+            (progn
+              (save-excursion
+                (goto-char auto-indent/last-line)
+                (if (auto-indent/is-whitespace (point) (line-end-position) t)
+                    (delete-region (point) (line-end-position))))
+              (if (auto-indent/is-whitespace (line-beginning-position) (point))
+                  (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position))
+                      (indent-according-to-mode)
+                    (auto-indent/beginning-of-line)))
+              (run-hooks 'auto-indent/line-change-hook)))
+        (and (not mod)
+             (buffer-modified-p)
+             (set-buffer-modified-p nil))
+        (setq undo-list (if in-undo-block
+                            buffer-undo-list
+                          (cons nil buffer-undo-list))))
+      (setq buffer-undo-list undo-list))))
 
 (defun auto-indent-hook ()
   (interactive)
