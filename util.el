@@ -16,10 +16,10 @@
   (interactive)
   (kill-buffer nil))
 
-(defun kill-entire-line ()
-  (interactive)
+(defun kill-entire-line (num)
+  (interactive "p")
   (let ((c (current-column)))
-    (kill-whole-line 1)
+    (kill-whole-line num)
     (move-to-column c)))
 
 (defun duplicate-line ()
