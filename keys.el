@@ -4,6 +4,7 @@
 (global-set-kbd-key "C-f"           'find-file)
 (global-set-kbd-key "C-b"           'switch-to-buffer)
 (global-set-kbd-key "M-1"           'delete-other-windows)
+(global-set-kbd-key "M-g"           'goto-line)
 (global-set-kbd-key "C-'"           'duplicate-line)
 (global-set-kbd-key "C-<return>"    'newline-under)
 (global-set-kbd-key "C-\\"          'newline-over)
