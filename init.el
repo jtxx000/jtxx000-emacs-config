@@ -21,6 +21,7 @@
 (load-library "site-io")
 (load-library "site-python")
 (load-library "site-cpp")
+(load-library "site-lisp")
 (require 'haml-mode)
 (require 'paredit)
 
