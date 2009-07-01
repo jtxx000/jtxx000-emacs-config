@@ -1,4 +1,5 @@
 (global-set-kbd-key "C-p"           'cycle-buffer)
+(global-set-kbd-key "C-S-p"         'cycle-buffer-backward)
 (global-set-kbd-key "C-z"           'kill-current-buffer)
 (global-set-kbd-key "C-n"           'save-buffer)
 (global-set-kbd-key "C-f"           'find-file)
