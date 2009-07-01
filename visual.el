@@ -2,6 +2,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (setq-default cursor-type 'bar)
+(setq-default cursor-in-non-selected-windows 'hollow-box)
 (setq-default indent-tabs-mode nil)
 (global-font-lock-mode t)
 (setq-default truncate-lines t)
