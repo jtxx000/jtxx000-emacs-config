@@ -7,11 +7,8 @@
 (defun site-python-shift-left  () (interactive) (site-python-shift -1))
 (defun site-python-shift-right () (interactive) (site-python-shift 1))
 
-(defun site-python-hook ()
-  (interactive)
+(definit python
+  (auto-indent-hook)
   (set-kbd-keys
     ("<tab>" . site-python-shift-right)
     ("<backtab>" . site-python-shift-left)))
-
-(add-hook 'python-mode-hook 'site-python-hook)
-(add-hook 'python-mode-hook 'auto-indent-hook)

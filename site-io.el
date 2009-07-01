@@ -11,9 +11,7 @@
              (forward-line -1))
     (newline-and-indent)))
 
-(defun site-init-io-mode ()
+(definit io
+  (auto-indent-hook)
   (c-subword-mode)
   (set-kbd-keys io-mode-keymap ("<return>" . io-mode-return)))
-
-(add-hook 'io-mode-hook 'site-init-io-mode)
-(add-hook 'io-mode-hook 'auto-indent-hook)

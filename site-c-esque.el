@@ -63,11 +63,19 @@
       (insert-char ?/ (- 80 (current-column)))
       (goto-char p))))
 
-(defun c-esque-init ()
+(defun c-esque-insert-doxygen-comment ()
+  (interactive)
+  (end-of-line)
+  (c-beginning-of-statement-1)
+  (insert "/**\n\n*/\n")
+  (forward-line -2))
+
+(definit (c-esque c-mode-common-hook)
+  (auto-indent-hook)
   (flyspell-prog-mode)
   (auto-fill-mode)
   (c-subword-mode)
-  
+
   (set-kbd-keys
     ("{"        . insert-brackets)
     ("<end>"    . c-esque/end-of-line)
@@ -80,13 +88,3 @@
 
   (c-set-offset 'substatement-open 0)
   (add-hook 'auto-indent/line-change-hook 'c-esque/confine-to-line-end nil t))
-
-(defun c-esque-insert-doxygen-comment ()
-  (interactive)
-  (end-of-line)
-  (c-beginning-of-statement-1)
-  (insert "/**\n\n*/\n")
-  (forward-line -2))
-
-(add-hook 'c-mode-common-hook 'c-esque-init)
-(add-hook 'c-mode-common-hook 'auto-indent-hook)

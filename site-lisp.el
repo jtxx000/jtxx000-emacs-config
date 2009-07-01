@@ -24,7 +24,7 @@
     (newline-and-indent)
     (insert line)))
 
-(defun site-lisp-init ()
+(definit (lisp emacs-lisp-mode-hook scheme-mode-hook)
   (paredit-mode)
   (auto-indent-hook)
 
@@ -50,6 +50,3 @@
     ("C-x C-t"       . lisp-transpose-lines)
     ("M-<backspace>" . lisp-delete-line)
     ("C-'"           . lisp-duplicate-line)))
-
-(add-hook 'emacs-lisp-mode-hook 'site-lisp-init)
-(add-hook 'scheme-mode-hook 'site-lisp-init)

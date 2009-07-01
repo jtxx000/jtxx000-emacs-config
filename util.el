@@ -79,3 +79,14 @@
     `(progn ,@(loop for x in bindings collect
                     `(,@fn (kbd ,(if (listp x) (car x) x))
                            ,(if (listp x) `',(cdr x) nil))))))
+
+(defmacro definit (name-sym &rest body)
+  (let* ((name-syms (if (listp name-sym)
+                        name-sym
+                      (list name-sym (intern (concat (symbol-name name-sym) "-mode-hook")))))
+         (init-sym (intern (concat "site-"
+                                   (symbol-name (car name-syms))
+                                   "-init"))))
+    `(progn
+       (defun ,init-sym () (interactive) ,@body)
+       ,@(loop for s in (cdr name-syms) collect `(add-hook ',s ',init-sym)))))
