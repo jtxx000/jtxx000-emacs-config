@@ -27,26 +27,29 @@
 (defun site-lisp-init ()
   (paredit-mode)
   (auto-indent-hook)
-  
+
   (setf auto-indent/delete-char-function 'paredit-forward-delete)
   (setf auto-indent/backward-delete-char-function 'paredit-backward-delete)
 
-  (define-key paredit-mode-map (kbd ")") 'paredit-close-round-and-newline)
-  (define-key paredit-mode-map (kbd "C-!") 'paredit-backward-slurp-sexp)
-  (define-key paredit-mode-map (kbd "C-@") 'paredit-forward-slurp-sexp)
-  (define-key paredit-mode-map (kbd "C-(") nil)
-  (define-key paredit-mode-map (kbd "C-)") nil)
-  (define-key paredit-mode-map (kbd "M-0") 'paredit-close-round)
-  (define-key paredit-mode-map (kbd "M-9") 'paredit-wrap-round)
-  (define-key paredit-mode-map (kbd "C-<left>") nil)
-  (define-key paredit-mode-map (kbd "C-<right>") nil)
-  (define-key paredit-mode-map (kbd "M-<up>") nil)
-  (define-key paredit-mode-map (kbd "M-<down>") nil)
-  (define-key paredit-mode-map (kbd "<delete>") nil)
+  (set-kbd-keys paredit-mode-map
+    (")"   . paredit-close-round-and-newline)
+    ("C-!" . paredit-backward-slurp-sexp)
+    ("C-@" . paredit-forward-slurp-sexp)
+    ("M-0" . paredit-close-round)
+    ("M-9" . paredit-wrap-round)
 
-  (local-set-key (kbd "C-x C-t") 'lisp-transpose-lines)
-  (local-set-key (kbd "M-<backspace>") 'lisp-delete-line)
-  (local-set-key (kbd "C-'") 'lisp-duplicate-line))
+    "C-("
+    "C-)"
+    "C-<left>"
+    "C-<right>"
+    "M-<up>"
+    "M-<down>"
+    "<delete>")
+
+  (set-kbd-keys
+    ("C-x C-t"       . lisp-transpose-lines)
+    ("M-<backspace>" . lisp-delete-line)
+    ("C-'"           . lisp-duplicate-line)))
 
 (add-hook 'emacs-lisp-mode-hook 'site-lisp-init)
 (add-hook 'scheme-mode-hook 'site-lisp-init)

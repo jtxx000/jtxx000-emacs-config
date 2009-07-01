@@ -64,17 +64,20 @@
       (goto-char p))))
 
 (defun c-esque-init ()
-  (local-set-key "{" 'insert-brackets)
   (flyspell-prog-mode)
   (auto-fill-mode)
   (c-subword-mode)
-  (local-set-key [end] 'c-esque/end-of-line)
+  
+  (set-kbd-keys
+    ("{"        . insert-brackets)
+    ("<end>"    . c-esque/end-of-line)
+    ("<right>"  . c-esque/forward-char)
+    ("<return>" . c-esque/newline)
+    ("C-c C-s"  . c-esque-update-section-comment))
+
   (if (system-is-osx)
-      (local-set-key (kbd "A-<right>") 'c-esque/end-of-line))
-  (local-set-key [right] 'c-esque/forward-char)
-  (local-set-key [return] 'c-esque/newline)
-  (local-set-key (kbd "C-c C-s") 'c-esque-update-section-comment)
-  (local-set-key (kbd "C-c C-a") 'align-current)
+      (set-kbd-keys ("A-<right>" . c-esque/end-of-line)))
+
   (c-set-offset 'substatement-open 0)
   (add-hook 'auto-indent/line-change-hook 'c-esque/confine-to-line-end nil t))
 

@@ -9,8 +9,9 @@
 
 (defun site-python-hook ()
   (interactive)
-  (local-set-key [tab] 'site-python-shift-right)
-  (local-set-key [backtab] 'site-python-shift-left))
+  (set-kbd-keys
+    ("<tab>" . site-python-shift-right)
+    ("<backtab>" . site-python-shift-left)))
 
 (add-hook 'python-mode-hook 'site-python-hook)
 (add-hook 'python-mode-hook 'auto-indent-hook)

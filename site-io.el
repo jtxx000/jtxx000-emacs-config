@@ -13,7 +13,7 @@
 
 (defun site-init-io-mode ()
   (c-subword-mode)
-  (define-key io-mode-keymap (kbd "<return>") 'io-mode-return))
+  (set-kbd-keys io-mode-keymap ("<return>" . io-mode-return)))
 
 (add-hook 'io-mode-hook 'site-init-io-mode)
 (add-hook 'io-mode-hook 'auto-indent-hook)

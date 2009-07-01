@@ -1,6 +1,3 @@
-(defmacro global-set-kbd-key (key cmd)
-  (list 'global-set-key (list 'kbd key) cmd))
-
 (defun delete-first (elt list)
   (if (equal (car list) elt)
       (cdr list)
@@ -71,6 +68,7 @@
   (forward-word))
 
 (defmacro set-kbd-keys (&rest rst)
+  (declare (indent defun))
   (let* ((kmap (if (symbolp (car rst))
                    (car rst)
                  nil))

@@ -1,7 +1,7 @@
 (require 'rst)
 
 (defun site-init-rst ()
-  (define-key rst-mode-map (kbd "C-=") 'rst-adjust-decoration)
+  (set-kbd-keys rst-mode-map ("C-=" . rst-adjust-decoration))
   (auto-fill-mode)
   (setq paragraph-start "\\f\\|[ \\t]*$")
   (setq paragraph-separate "[ \\t\\f]*$")
