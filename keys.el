@@ -15,7 +15,11 @@
 (global-set-kbd-key "C-<tab>"       'hippie-expand)
 (global-set-kbd-key "C-e"           'mark-paragraph)
 (global-set-kbd-key "C-v"           'kill-ring-save-line)
-(global-set-kbd-key "M-<right>"     'other-window)
+(global-set-kbd-key "M-<right>"     'windmove-right)
+(global-set-kbd-key "M-<left>"      'windmove-left)
+(global-set-kbd-key "M-<up>"        'windmove-up)
+(global-set-kbd-key "M-<down>"      'windmove-down)
+
 
 (global-set-kbd-key "S-<up>"        'backward-up-list)
 (global-set-kbd-key "S-<down>"      'down-list)
