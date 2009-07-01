@@ -61,3 +61,23 @@
 (defun kill-ring-save-line ()
   (interactive)
   (kill-ring-save (line-beginning-position) (line-end-position)))
+
+(defun increment-word ()
+  (interactive)
+  (save-excursion
+    (mark-word)
+    (let ((r (delete-and-extract-region (region-beginning) (region-end))))
+      (insert (number-to-string (+ 1 (string-to-number r))))))
+  (forward-word))
+
+(defmacro set-kbd-keys (&rest rst)
+  (let* ((kmap (if (symbolp (car rst))
+                   (car rst)
+                 nil))
+         (bindings (if kmap (cdr rst) rst))
+         (fn (cond ((eq kmap 'global) '(global-set-key))
+                   (kmap `(define-key ,kmap))
+                   (t '(local-set-key)))))
+    `(progn ,@(loop for x in bindings collect
+                    `(,@fn (kbd ,(if (listp x) (car x) x))
+                           ,(if (listp x) `',(cdr x) nil))))))
