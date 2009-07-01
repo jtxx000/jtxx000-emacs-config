@@ -20,6 +20,7 @@
 (global-set-kbd-key "M-<up>"        'windmove-up)
 (global-set-kbd-key "M-<down>"      'windmove-down)
 
+(global-set-kbd-key "C-+"           'increment-word)
 
 (global-set-kbd-key "S-<up>"        'backward-up-list)
 (global-set-kbd-key "S-<down>"      'down-list)
