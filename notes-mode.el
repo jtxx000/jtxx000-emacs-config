@@ -11,7 +11,7 @@
   (define-key notes-mode-map (kbd "C-=") 'notes-mode-insert-section)
   (setq font-lock-defaults
         `(((,notes-mode-section-regexp . font-lock-function-name-face)
-           ("^\\(.*\\) - " 1 font-lock-type-face)
+           ("^\\?* ?\\(.*\\) - " 1 font-lock-type-face)
            ("^\\([[:digit:]]\\{2\\}\\): " . 1)
            "@"
            ("@ \\(.*\\)$" 1 font-lock-constant-face)))))
