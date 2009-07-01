@@ -75,6 +75,7 @@
   (local-set-key [return] 'c-esque/newline)
   (local-set-key (kbd "C-c C-s") 'c-esque-update-section-comment)
   (local-set-key (kbd "C-c C-a") 'align-current)
+  (c-set-offset 'substatement-open 0)
   (add-hook 'auto-indent/line-change-hook 'c-esque/confine-to-line-end nil t))
 
 (defun c-esque-insert-doxygen-comment ()
