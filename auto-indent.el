@@ -1,3 +1,8 @@
+(defvar auto-indent/delete-char-function 'delete-char)
+(make-variable-buffer-local 'auto-indent/delete-char-function)
+(defvar auto-indent/backward-delete-char-function 'backward-delete-char-untabify)
+(make-variable-buffer-local 'auto-indent/backward-delete-char-function)
+
 (defun auto-indent/backward-char ()
   (interactive)
   (if (auto-indent/point-at-beginning-of-line-text)
@@ -32,7 +37,7 @@
                               (point)))
 
         (indent-according-to-mode))
-    (delete-char 1)))
+    (apply auto-indent/delete-char-function '(1))))
 
 (defun auto-indent/backward-delete-char ()
   (interactive)
@@ -44,7 +49,7 @@
                               (point)))
         (if (auto-indent/is-whitespace (line-beginning-position) (point))
             (indent-according-to-mode)))
-    (backward-delete-char-untabify 1)))
+    (apply auto-indent/backward-delete-char-function '(1))))
 
 
 (defun auto-indent/open-line ()
