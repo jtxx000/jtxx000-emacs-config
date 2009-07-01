@@ -22,14 +22,13 @@
     (kill-whole-line num)
     (move-to-column c)))
 
-(defun duplicate-line ()
-  (interactive)
+(defun duplicate-line (num)
+  (interactive "p")
   (save-excursion
     (let ((line (buffer-substring (line-beginning-position) (line-end-position))))
       (end-of-line)
-      (newline)
-      (insert line)))
-  (next-line))
+      (loop repeat num do (newline) (insert line))))
+  (next-line num))
 
 (defun newline-under ()
   (interactive)
