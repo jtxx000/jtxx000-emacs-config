@@ -23,7 +23,9 @@
 (global-set-kbd-key "C-+"           'increment-word)
 
 (global-set-kbd-key "S-<up>"        'backward-up-list)
+(global-set-kbd-key "C-S-<up>"      'up-list)
 (global-set-kbd-key "S-<down>"      'down-list)
+(global-set-kbd-key "C-S-<down>"    'backward-down-list)
 (global-set-kbd-key "S-<left>"      'backward-sexp)
 (global-set-kbd-key "S-<right>"     'forward-sexp)
 (global-set-kbd-key "S-<delete>"    'kill-sexp)
