@@ -81,6 +81,7 @@
                            ,(if (listp x) `',(cdr x) nil))))))
 
 (defmacro definit (name-sym &rest body)
+  (declare (indent defun))
   (let* ((name-syms (if (listp name-sym)
                         name-sym
                       (list name-sym (intern (concat (symbol-name name-sym) "-mode-hook")))))
