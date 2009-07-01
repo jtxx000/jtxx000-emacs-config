@@ -12,6 +12,7 @@
     (newline-and-indent)))
 
 (defun site-init-io-mode ()
+  (c-subword-mode)
   (define-key io-mode-keymap (kbd "<return>") 'io-mode-return))
 
 (add-hook 'io-mode-hook 'site-init-io-mode)
