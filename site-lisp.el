@@ -19,10 +19,12 @@
 
 (defun lisp-duplicate-line ()
   (interactive)
-  (goto-line-sexp)
-  (let ((line (buffer-substring (point) (progn (forward-sexp) (point)))))
-    (newline-and-indent)
-    (insert line)))
+  (save-excursion
+    (goto-line-sexp)
+    (let ((line (buffer-substring (point) (progn (forward-sexp) (point)))))
+      (newline-and-indent)
+      (insert line)))
+  (next-line))
 
 (definit (lisp emacs-lisp-mode-hook scheme-mode-hook)
   (paredit-mode)
@@ -32,11 +34,13 @@
   (setf auto-indent/backward-delete-char-function 'paredit-backward-delete)
 
   (set-kbd-keys paredit-mode-map
-    (")"   . paredit-close-round-and-newline)
-    ("C-!" . paredit-backward-slurp-sexp)
-    ("C-@" . paredit-forward-slurp-sexp)
-    ("M-0" . paredit-close-round)
-    ("M-9" . paredit-wrap-round)
+    (")"             . paredit-close-round-and-newline)
+    ("C-!"           . paredit-backward-slurp-sexp)
+    ("C-@"           . paredit-forward-slurp-sexp)
+    ("C-<backspace>" . paredit-backward-kill-word)
+    ("C-<delete>"    . paredit-forward-kill-word)
+    ("M-0"           . paredit-close-round)
+    ("M-9"           . paredit-wrap-round)
 
     "C-("
     "C-)"
