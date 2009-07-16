@@ -91,3 +91,17 @@
     `(progn
        (defun ,init-sym () (interactive) ,@body)
        ,@(loop for s in (cdr name-syms) collect `(add-hook ',s ',init-sym)))))
+
+(defun forward-to-next-sexp ()
+  (interactive)
+  (up-list)
+  (down-list))
+
+(defun backward-to-previous-sexp ()
+  (interactive)
+  (backward-up-list)
+  (backward-down-list))
+
+(defun recenter-no-erase ()
+  (interactive)
+  (recenter '(4)))
