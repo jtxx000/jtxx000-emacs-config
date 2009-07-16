@@ -9,7 +9,7 @@
  '(mac-command-modifier (quote alt))
  '(mac-option-modifier (quote meta))
  '(mouse-wheel-progressive-speed nil)
- '(mouse-wheel-scroll-amount (quote (5 ((shift) . 1) ((control)))))
+ '(mouse-wheel-scroll-amount (quote (6 ((shift) . 1) ((control)))))
  '(python-indent 3)
  '(rst-adornment-faces-alist (quote ((t . font-lock-keyword-face) (nil . font-lock-keyword-face) (1 . font-lock-function-name-face) (2 . font-lock-function-name-face) (3 . font-lock-function-name-face) (4 . font-lock-function-name-face) (5 . font-lock-function-name-face) (6 . font-lock-function-name-face))))
  '(tab-width 4)
