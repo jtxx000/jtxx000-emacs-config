@@ -14,4 +14,5 @@
            ("^\\?* ?\\(.*\\) - " 1 font-lock-type-face)
            ("^\\([[:digit:]]\\{2\\}\\): " . 1)
            "@"
-           ("@ \\(.*\\)$" 1 font-lock-constant-face)))))
+           ("@ \\(.*\\)$" 1 font-lock-constant-face)
+           ("\\$[[:digit:]]+\\.?[[:digit:]]+?$" . font-lock-string-face)))))
