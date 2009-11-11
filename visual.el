@@ -6,6 +6,7 @@
 (setq-default indent-tabs-mode nil)
 (global-font-lock-mode t)
 (setq-default truncate-lines t)
+(blink-cursor-mode t)
 
 (require 'color-theme)
 (color-theme-initialize)

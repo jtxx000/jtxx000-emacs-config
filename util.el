@@ -105,3 +105,11 @@
 (defun recenter-no-erase ()
   (interactive)
   (recenter '(4)))
+
+(defun display-file (file)
+  (let ((buff (get-file-buffer file)))
+    (if buff
+        (progn (set-buffer buff)
+               (revert-buffer nil t)
+               (display-buffer buff))
+      (save-selected-window (find-file-other-window file)))))
