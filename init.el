@@ -5,7 +5,6 @@
 
 (load-library "visual")
 (load-library "util")
-(load-library "keys")
 (load-library "misc")
 (load-library "show-paren-offscreen")
 (load-library "auto-indent")
@@ -25,8 +24,15 @@
 (load-library "site-cpp")
 (load-library "site-lisp")
 (load-library "site-compilation")
+(load-library "site-org")
 (require 'haml-mode)
 (require 'paredit)
+(require 'no-word)
+(add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
+(load-library "keys")
+
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))

@@ -137,4 +137,4 @@
   (add-hook 'post-command-hook 'auto-indent/post-command nil t))
 
 (add-hook 'ruby-mode-hook 'auto-indent-hook)
-(add-hook 'org-mode-hook 'auto-indent-hook)
+

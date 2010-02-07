@@ -12,6 +12,9 @@
  '(mac-option-modifier (quote meta))
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount (quote (6 ((shift) . 1) ((control)))))
+ '(org-disputed-keys (quote (([(shift up)] . [(meta p)]) ([(shift down)] . [(meta n)]) ([(shift left)] . [(meta -)]) ([(shift right)] . [(meta +)]) ([(control shift right)] . [(meta shift +)]) ([(control shift left)] . [(meta shift -)]) ([(meta left)] . [(shift meta left)]) ([(meta right)] . [(shift meta right)]) ([(meta down)] . [(shift meta down)]) ([(meta up)] . [(shift meta up)]) ((kbd "C-'")))))
+ '(org-replace-disputed-keys t)
+ '(org-startup-indented t)
  '(python-indent 3)
  '(revert-without-query (quote (".*")))
  '(rst-adornment-faces-alist (quote ((t . font-lock-keyword-face) (nil . font-lock-keyword-face) (1 . font-lock-function-name-face) (2 . font-lock-function-name-face) (3 . font-lock-function-name-face) (4 . font-lock-function-name-face) (5 . font-lock-function-name-face) (6 . font-lock-function-name-face))))
@@ -23,4 +26,4 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+ '(org-date ((((class color) (background dark)) (:foreground "#729fcf" :underline t)))))
