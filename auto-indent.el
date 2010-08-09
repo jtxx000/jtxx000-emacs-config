@@ -1,3 +1,5 @@
+(require 'cc-mode)
+
 (defvar auto-indent/delete-char-function 'delete-char)
 (make-variable-buffer-local 'auto-indent/delete-char-function)
 (defvar auto-indent/backward-delete-char-function 'backward-delete-char-untabify)
@@ -72,6 +74,8 @@
 
 (defvar auto-indent/last-line 1)
 (make-variable-buffer-local 'auto-indent/last-line)
+(defvar auto-indent/overlay)
+(make-variable-buffer-local 'auto-indent/overlay)
 
 (defvar auto-indent/line-change-hook '())
 
@@ -85,40 +89,37 @@
            "$")
    (buffer-substring x y)))
 
+(defvar auto-indent/should-splice)
+(make-variable-buffer-local  'auto-indent/should-splice)
+
+(defun auto-indent/splice-overlay (o after begin end &optional len)
+  (setq auto-indent/should-splice t))
+
 (defun auto-indent/post-command ()
-  (unless undo-in-progress
-    (let ((undo-list buffer-undo-list)
-          (in-undo-block (car buffer-undo-list)))
-      (let ((mod (buffer-modified-p))
-            (buffer-undo-list (if in-undo-block
-                                  buffer-undo-list
-                                (cdr buffer-undo-list)))
-            (inhibit-read-only t)
-            (inhibit-point-motion-hooks t)
-            before-change-functions
-            after-change-functions
-            deactivate-mark
-            buffer-file-name
-            buffer-file-truename)
-        (if (and (/= auto-indent/last-line (line-beginning-position))
-                 (not (eq this-command 'undo)))
-            (progn
-              (save-excursion
-                (goto-char auto-indent/last-line)
-                (if (auto-indent/is-whitespace (point) (line-end-position) t)
-                    (delete-region (point) (line-end-position))))
-              (if (auto-indent/is-whitespace (line-beginning-position) (point))
-                  (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position))
-                      (indent-according-to-mode)
-                    (auto-indent/beginning-of-line)))
-              (run-hooks 'auto-indent/line-change-hook)))
-        (and (not mod)
-             (buffer-modified-p)
-             (set-buffer-modified-p nil))
-        (setq undo-list (if in-undo-block
-                            buffer-undo-list
-                          (cons nil buffer-undo-list))))
-      (setq buffer-undo-list undo-list))))
+  (when auto-indent/should-splice
+    (save-excursion
+      (goto-char (overlay-start auto-indent/overlay))
+      (delete-overlay auto-indent/overlay)
+      (indent-according-to-mode)
+      (setq auto-indent/should-splice nil)))
+  (c-save-buffer-state ()
+      (c-tentative-buffer-changes
+        (if (auto-indent/is-whitespace (line-beginning-position) (point))
+            (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position))
+                (progn
+                  (delete-overlay auto-indent/overlay)
+                  (indent-according-to-mode)
+                  (overlay-put auto-indent/overlay 'before-string (buffer-substring (line-beginning-position) (line-end-position)))
+                  (move-overlay auto-indent/overlay (line-beginning-position) (line-end-position)))
+              (delete-overlay auto-indent/overlay)
+              (auto-indent/beginning-of-line)))
+        nil))
+  (if (and (/= auto-indent/last-line (line-beginning-position))
+           (buffer-modified-p))
+      (save-excursion
+        (goto-char auto-indent/last-line)
+        (if (auto-indent/is-whitespace (point) (line-end-position) t)
+            (delete-region (point) (line-end-position))))))
 
 (defun auto-indent-hook ()
   (interactive)
@@ -134,7 +135,11 @@
   (local-set-key (kbd "C-y") 'auto-indent/yank)
   (local-set-key (kbd "M-y") 'auto-indent/yank-pop)
   (add-hook 'pre-command-hook 'auto-indent/pre-command nil t)
-  (add-hook 'post-command-hook 'auto-indent/post-command nil t))
+  (add-hook 'post-command-hook 'auto-indent/post-command nil t)
+  (setq auto-indent/overlay (make-overlay (point-min)
+                                          (point-min)))
+  (overlay-put auto-indent/overlay 'invisible t)
+  (overlay-put auto-indent/overlay 'insert-behind-hooks '(auto-indent/splice-overlay))
+  (delete-overlay auto-indent/overlay))
 
 (add-hook 'ruby-mode-hook 'auto-indent-hook)
-
