@@ -124,15 +124,16 @@
 (define-minor-mode auto-indent-mode
   "Automatic source code indentation"
   :keymap
-  `(([left]       . auto-indent/backward-char)
-    ([return]     . newline-and-indent)
-    ([delete]     . auto-indent/delete-char)
-    (,(kbd "C-d") . auto-indent/delete-char)
-    ([backspace]  . auto-indent/backward-delete-char)
-    ([home]       . auto-indent/beginning-of-line)
-    (,(kbd "C-o") . auto-indent/open-line)
-    (,(kbd "C-y") . auto-indent/yank)
-    (,(kbd "M-y") . auto-indent/yank-pop))
+  '(([left]      . auto-indent/backward-char)
+    ("\C-b"      . auto-indent/backward-char)
+    ([return]    . newline-and-indent)
+    ([delete]    . auto-indent/delete-char)
+    ("\C-d"      . auto-indent/delete-char)
+    ([backspace] . auto-indent/backward-delete-char)
+    ([home]      . auto-indent/beginning-of-line)
+    ("\C-o"      . auto-indent/open-line)
+    ("\C-y"      . auto-indent/yank)
+    ("\M-y"      . auto-indent/yank-pop))
   (if auto-indent-mode
       (progn
         (add-hook 'pre-command-hook 'auto-indent/pre-command nil t)
@@ -147,5 +148,3 @@
     (remove-hook 'pre-command-hook 'auto-indent/pre-command t)
     (remove-hook 'post-command-hook 'auto-indent/post-command t))
   (delete-overlay auto-indent/overlay))
-
-(add-hook 'ruby-mode-hook 'auto-indent-hook)
