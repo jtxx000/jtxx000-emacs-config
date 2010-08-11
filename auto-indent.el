@@ -87,19 +87,13 @@
            "$")
    (buffer-substring x y)))
 
-(defvar auto-indent/should-splice)
-(make-variable-buffer-local  'auto-indent/should-splice)
-
-(defun auto-indent/splice-overlay (o after begin end &optional len)
-  (setq auto-indent/should-splice t))
-
 (defun auto-indent/post-command ()
-  (when auto-indent/should-splice
-    (save-excursion
-      (goto-char (overlay-start auto-indent/overlay))
+  (save-excursion
+    (when (and (overlay-buffer auto-indent/overlay)
+               (not (progn (goto-char (overlay-start auto-indent/overlay))
+                           (auto-indent/is-whitespace (line-beginning-position) (line-end-position)))))
       (delete-overlay auto-indent/overlay)
-      (indent-according-to-mode)
-      (setq auto-indent/should-splice nil)))
+      (indent-according-to-mode)))
 
   (let ((at-white (auto-indent/is-whitespace (line-beginning-position) (point)))
         (line-white (auto-indent/is-whitespace (line-beginning-position) (line-end-position))))
@@ -113,7 +107,7 @@
         nil))
     (if line-white
         (move-overlay auto-indent/overlay (line-beginning-position) (line-end-position))))
-
+  
   (if (and (/= auto-indent/last-line (line-beginning-position))
            (buffer-modified-p))
       (save-excursion
@@ -141,10 +135,9 @@
         (setq auto-indent/overlay (make-overlay (point-min)
                                                 (point-min)))
         (overlay-put auto-indent/overlay 'invisible t)
-        (overlay-put auto-indent/overlay 'insert-behind-hooks '(auto-indent/splice-overlay))
-        (overlay-put auto-indent/overlay 'modification-hooks '(auto-indent/splice-overlay))
-        (overlay-put auto-indent/overlay 'insert-in-front-hooks '(auto-indent/splice-overlay))
         (auto-indent/pre-command))
     (remove-hook 'pre-command-hook 'auto-indent/pre-command t)
     (remove-hook 'post-command-hook 'auto-indent/post-command t))
   (delete-overlay auto-indent/overlay))
+
+(provide 'auto-indent)
