@@ -77,8 +77,6 @@
 (defvar auto-indent/overlay)
 (make-variable-buffer-local 'auto-indent/overlay)
 
-(defvar auto-indent/line-change-hook '())
-
 (defun auto-indent/pre-command ()
   (setq auto-indent/last-line (copy-marker (line-beginning-position))))
 
@@ -102,18 +100,20 @@
       (delete-overlay auto-indent/overlay)
       (indent-according-to-mode)
       (setq auto-indent/should-splice nil)))
-  (c-save-buffer-state ()
+
+  (let ((at-white (auto-indent/is-whitespace (line-beginning-position) (point)))
+        (line-white (auto-indent/is-whitespace (line-beginning-position) (line-end-position))))
+    (delete-overlay auto-indent/overlay)
+    (c-save-buffer-state ()
       (c-tentative-buffer-changes
-        (if (auto-indent/is-whitespace (line-beginning-position) (point))
-            (if (auto-indent/is-whitespace (line-beginning-position) (line-end-position))
-                (progn
-                  (delete-overlay auto-indent/overlay)
-                  (indent-according-to-mode)
-                  (overlay-put auto-indent/overlay 'before-string (buffer-substring (line-beginning-position) (line-end-position)))
-                  (move-overlay auto-indent/overlay (line-beginning-position) (line-end-position)))
-              (delete-overlay auto-indent/overlay)
-              (auto-indent/beginning-of-line)))
+        (cond
+         (line-white (indent-according-to-mode)
+                     (overlay-put auto-indent/overlay 'before-string (buffer-substring (line-beginning-position) (line-end-position))))
+         (at-white (auto-indent/beginning-of-line)))
         nil))
+    (if line-white
+        (move-overlay auto-indent/overlay (line-beginning-position) (line-end-position))))
+
   (if (and (/= auto-indent/last-line (line-beginning-position))
            (buffer-modified-p))
       (save-excursion
@@ -122,7 +122,7 @@
             (delete-region (point) (line-end-position))))))
 
 (define-minor-mode auto-indent-mode
-  "Automatically indentation for source code"
+  "Automatic source code indentation"
   :keymap
   `(([left]       . auto-indent/backward-char)
     ([return]     . newline-and-indent)
@@ -141,6 +141,8 @@
                                                 (point-min)))
         (overlay-put auto-indent/overlay 'invisible t)
         (overlay-put auto-indent/overlay 'insert-behind-hooks '(auto-indent/splice-overlay))
+        (overlay-put auto-indent/overlay 'modification-hooks '(auto-indent/splice-overlay))
+        (overlay-put auto-indent/overlay 'insert-in-front-hooks '(auto-indent/splice-overlay))
         (auto-indent/pre-command))
     (remove-hook 'pre-command-hook 'auto-indent/pre-command t)
     (remove-hook 'post-command-hook 'auto-indent/post-command t))
