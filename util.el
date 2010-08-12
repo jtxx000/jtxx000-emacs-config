@@ -30,13 +30,12 @@
 (defun newline-under ()
   (interactive)
   (end-of-line)
-  (newline-and-indent))
+  (newline))
 
 (defun newline-over ()
   (interactive)
   (beginning-of-line)
-  (split-line)
-  (indent-according-to-mode))
+  (split-line))
 
 (defun system-is-osx ()
   (string-match "apple" system-configuration))
