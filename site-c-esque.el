@@ -74,7 +74,7 @@
   (auto-indent-hook)
   (flyspell-prog-mode)
   (auto-fill-mode)
-  (c-subword-mode)
+  (subword-mode)
 
   (set-kbd-keys
     ("{"        . insert-brackets)
