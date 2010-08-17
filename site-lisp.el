@@ -26,7 +26,12 @@
       (insert line)))
   (next-line))
 
-(definit (lisp emacs-lisp-mode-hook scheme-mode-hook)
+(defun lisp-close-space ()
+  (interactive)
+  (paredit-close-round)
+  (insert " "))
+
+(definit (lisp emacs-lisp-mode-hook)
   (paredit-mode)
   (auto-indent-hook)
 
@@ -35,11 +40,12 @@
 
   (set-kbd-keys paredit-mode-map
     (")"             . paredit-close-round-and-newline)
+    ("]"             . lisp-close-space)
     ("C-!"           . paredit-backward-slurp-sexp)
     ("C-@"           . paredit-forward-slurp-sexp)
     ("C-<backspace>" . paredit-backward-kill-word)
     ("C-<delete>"    . paredit-forward-kill-word)
-    ("M-0"           . paredit-close-round)
+    ("S-<end>"       . paredit-close-round)
     ("M-9"           . paredit-wrap-round)
 
     "C-("

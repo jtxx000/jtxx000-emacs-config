@@ -54,7 +54,7 @@
 (defun c-esque-update-section-comment ()
   (interactive)
   (let* ((str (buffer-substring (line-beginning-position) (line-end-position)))
-         (m (if (string-match "^/* \\(.*?\\) ?/*$" str) (match-string 1 str) ""))
+         (m (if (string-match "^/* ?\\(.*?\\) ?/*$" str) (match-string 1 str) ""))
          (p (point)))
     (delete-region (line-beginning-position) (line-end-position))
     (insert-char ?/ 4)
