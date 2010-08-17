@@ -5,7 +5,7 @@
   ;; If there is more than one, they won't work right.
  '(blink-matching-paren nil)
  '(compilation-read-command nil)
- '(hippie-expand-try-functions-list (quote (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
+ '(hippie-expand-try-functions-list (quote (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
  '(initial-scratch-message nil)
  '(jit-lock-context-time 0)
  '(mac-command-modifier (quote alt))

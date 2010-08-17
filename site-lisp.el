@@ -28,7 +28,7 @@
 
 (definit (lisp emacs-lisp-mode-hook scheme-mode-hook)
   (paredit-mode)
-  (auto-indent-hook)
+  (auto-indent-mode)
 
   (setf auto-indent/delete-char-function 'paredit-forward-delete)
   (setf auto-indent/backward-delete-char-function 'paredit-backward-delete)
