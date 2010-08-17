@@ -1,5 +1,3 @@
-(require 'cc-mode)
-
 (defvar auto-indent/delete-char-function 'delete-char)
 (make-variable-buffer-local 'auto-indent/delete-char-function)
 (defvar auto-indent/backward-delete-char-function 'backward-delete-char-untabify)
@@ -97,6 +95,21 @@
   (setq auto-indent/last-line-unless-white (unless (auto-indent/is-whitespace (line-beginning-position) (line-end-position) t)
                                              (copy-marker (line-beginning-position)))))
 
+(defmacro auto-indent/temp-change (&rest forms)
+  "Executes FORMS with a temporary buffer-undo-list, undoing on return.
+The changes you make within FORMS are undone before returning.
+But more importantly, the buffer's buffer-undo-list is not affected.
+This allows you to temporarily modify read-only buffers too."
+  `(let* ((buffer-undo-list)
+          (modified (buffer-modified-p))
+          (inhibit-read-only t))
+     (save-excursion
+       (unwind-protect
+           (progn ,@forms)
+         (primitive-undo (length buffer-undo-list) buffer-undo-list)
+         (set-buffer-modified-p modified))) ()))
+(put 'auto-indent/temp-change 'lisp-indent-function 0)
+
 (defun auto-indent/post-command ()
   (save-excursion
     (when (and (overlay-buffer auto-indent/overlay)
@@ -109,13 +122,11 @@
   (let ((at-white (auto-indent/is-whitespace (line-beginning-position) (point)))
         (line-white (auto-indent/is-whitespace (line-beginning-position) (line-end-position))))
     (delete-overlay auto-indent/overlay)
-    (c-save-buffer-state ()
-      (c-tentative-buffer-changes
-        (cond
-         (line-white (indent-according-to-mode)
-                     (overlay-put auto-indent/overlay 'before-string (buffer-substring (line-beginning-position) (line-end-position))))
-         (at-white (auto-indent/beginning-of-line)))
-        nil))
+    (auto-indent/temp-change
+     (cond
+      (line-white (indent-according-to-mode)
+                  (overlay-put auto-indent/overlay 'before-string (buffer-substring (line-beginning-position) (line-end-position))))
+      (at-white (auto-indent/beginning-of-line))))
     (if line-white
         (move-overlay auto-indent/overlay (line-beginning-position) (line-end-position))))
 
@@ -150,37 +161,5 @@
     (remove-hook 'pre-command-hook 'auto-indent/pre-command t)
     (remove-hook 'post-command-hook 'auto-indent/post-command t))
   (delete-overlay auto-indent/overlay))
-
-(defun c-tnt-chng-cleanup (keep saved-state)
-  ;; Used internally in `c-tentative-buffer-changes'.
-
-  (let ((saved-undo-list (elt saved-state 0)))
-    (if (eq buffer-undo-list saved-undo-list)
-        ;; No change was done afterall.
-        (setq buffer-undo-list (cdr saved-undo-list))
-
-      (if keep
-          ;; Find and remove the undo boundary.
-          (let ((p buffer-undo-list))
-            (while (not (eq (cdr p) saved-undo-list))
-              (setq p (cdr p)))
-            (setcdr p (cdr saved-undo-list)))
-
-        ;; `primitive-undo' will remove the boundary.
-        (setq saved-undo-list (cdr saved-undo-list))
-        (let ((undo-in-progress t))
-          (while (and buffer-undo-list
-                      (not (eq (setq buffer-undo-list
-                                     (primitive-undo 1 buffer-undo-list))
-                               saved-undo-list)))))
-
-        (when (buffer-live-p (elt saved-state 1))
-          (set-buffer (elt saved-state 1))
-          (goto-char (elt saved-state 2))
-          (set-mark (elt saved-state 3))
-          (c-set-region-active (elt saved-state 4))
-          (and (not (elt saved-state 5))
-               (buffer-modified-p)
-               (set-buffer-modified-p nil)))))))
 
 (provide 'auto-indent)
