@@ -53,15 +53,7 @@
 
 (defun c-esque-update-section-comment ()
   (interactive)
-  (let* ((str (buffer-substring (line-beginning-position) (line-end-position)))
-         (m (if (string-match "^/* ?\\(.*?\\) ?/*$" str) (match-string 1 str) ""))
-         (p (point)))
-    (delete-region (line-beginning-position) (line-end-position))
-    (insert-char ?/ 4)
-    (if (string= m "") (insert " ")
-      (insert " " m " ")
-      (insert-char ?/ (- 80 (current-column)))
-      (goto-char p))))
+  (update-section-comment ?/))
 
 (defun c-esque-insert-doxygen-comment ()
   (interactive)

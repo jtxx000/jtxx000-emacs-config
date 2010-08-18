@@ -122,13 +122,12 @@ This allows you to temporarily modify read-only buffers too."
   (let ((at-white (auto-indent/is-whitespace (line-beginning-position) (point)))
         (line-white (auto-indent/is-whitespace (line-beginning-position) (line-end-position))))
     (delete-overlay auto-indent/overlay)
-    (auto-indent/temp-change
-     (cond
-      (line-white (indent-according-to-mode)
-                  (overlay-put auto-indent/overlay 'before-string (buffer-substring (line-beginning-position) (line-end-position))))
-      (at-white (auto-indent/beginning-of-line))))
-    (if line-white
-        (move-overlay auto-indent/overlay (line-beginning-position) (line-end-position))))
+    (cond
+     (line-white (auto-indent/temp-change
+                   (indent-according-to-mode)
+                   (overlay-put auto-indent/overlay 'before-string (buffer-substring (line-beginning-position) (line-end-position))))
+                 (move-overlay auto-indent/overlay (line-beginning-position) (line-end-position)))
+     (at-white (auto-indent/beginning-of-line))))
 
   (and (auto-indent/can-change)
        auto-indent/last-line-unless-white

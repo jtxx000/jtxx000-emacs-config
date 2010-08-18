@@ -31,6 +31,10 @@
   (paredit-close-round)
   (insert " "))
 
+(defun lisp-update-section-comment ()
+  (interactive)
+  (update-section-comment ?\;))
+
 (definit (lisp emacs-lisp-mode-hook)
   (paredit-mode)
   (auto-indent-mode)
@@ -59,4 +63,5 @@
   (set-kbd-keys
     ("C-x C-t"       . lisp-transpose-lines)
     ("M-<backspace>" . lisp-delete-line)
-    ("C-'"           . lisp-duplicate-line)))
+    ("C-'"           . lisp-duplicate-line)
+    ("C-="           . lisp-update-section-comment)))
