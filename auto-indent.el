@@ -16,7 +16,7 @@
 
 (defun auto-indent/beginning-of-line ()
   (interactive)
-  (beginning-of-line)
+  (move-beginning-of-line nil)
   (save-match-data
     (if (search-forward-regexp "[^ \t]" nil t)
         (backward-char)
@@ -102,7 +102,8 @@ But more importantly, the buffer's buffer-undo-list is not affected.
 This allows you to temporarily modify read-only buffers too."
   `(let* ((buffer-undo-list)
           (modified (buffer-modified-p))
-          (inhibit-read-only t))
+          (inhibit-read-only t)
+          deactivate-mark)
      (save-excursion
        (unwind-protect
            (progn ,@forms)

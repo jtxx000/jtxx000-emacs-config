@@ -1,7 +1,7 @@
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/vendor")
 
-;(server-start)
+(server-start)
 
 (load-library "visual")
 (load-library "util")
