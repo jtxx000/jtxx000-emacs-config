@@ -30,10 +30,13 @@
 (require 'paredit)
 (require 'no-word)
 (add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
+(require 'cycle-buffer)
 (load-library "keys")
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+(require 'elisp-format)
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 

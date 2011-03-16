@@ -73,7 +73,7 @@
     ("<end>"    . c-esque/end-of-line)
     ("<right>"  . c-esque/forward-char)
     ("<return>" . c-esque/newline)
-    ("C-c C-s"  . c-esque-update-section-comment))
+    ("C-="      . c-esque-update-section-comment))
 
   (if (system-is-osx)
       (set-kbd-keys ("A-<right>" . c-esque/end-of-line)))

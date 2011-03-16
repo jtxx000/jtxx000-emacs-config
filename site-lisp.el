@@ -65,3 +65,9 @@
     ("M-<backspace>" . lisp-delete-line)
     ("C-'"           . lisp-duplicate-line)
     ("C-="           . lisp-update-section-comment)))
+
+;;;; scheme
+(put 'match 'scheme-indent-function 1)
+(put 'match-let 'scheme-indent-function 1)
+(put 'receive 'scheme-indent-function 2)
+(put 'with 'scheme-indent-function 2)

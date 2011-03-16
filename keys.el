@@ -1,6 +1,6 @@
 (set-kbd-keys global
-  ("C-p"         . cycle-buffer)
-  ("C-S-p"       . cycle-buffer-backward)
+  ("C-p"         . cycle-buffer-permissive)
+  ("C-S-p"       . cycle-buffer-backward-permissive)
   ("C-z"         . kill-current-buffer)
   ("C-n"         . save-buffer)
   ("C-f"         . find-file)
@@ -33,6 +33,7 @@
   ("C-l"         . recenter-no-erase)
   ("C-S-c"       . compile)
   ("C-`"         . next-error)
+  ("C-#"         . comment-or-uncomment-region)
 
   ("C-+" . increment-word)
 

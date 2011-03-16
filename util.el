@@ -126,3 +126,8 @@
       (insert " " m " ")
       (insert-char c (- 80 (current-column)))
       (goto-char (+ 5 (- p (match-beginning 1)))))))
+
+(defun unfill-paragraph ()
+  (interactive)
+  (let ((fill-column (point-max)))
+    (call-interactively 'fill-paragraph)))
