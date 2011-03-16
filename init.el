@@ -32,6 +32,8 @@
 (add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
 (require 'cycle-buffer)
 (load-library "keys")
+(require 'geiser-install nil t)
+(load-library "site-geiser")
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
