@@ -67,7 +67,14 @@
     ("C-="           . lisp-update-section-comment)))
 
 ;;;; scheme
+(definit scheme
+  (site-lisp-init)
+  (set-kbd-keys
+    ("C-c C-d" . geiser-doc-look-up-manual)))
+
 (put 'match 'scheme-indent-function 1)
 (put 'match-let 'scheme-indent-function 1)
+(put 'match-lambda 'scheme-indent-function 1)
 (put 'receive 'scheme-indent-function 2)
 (put 'with 'scheme-indent-function 2)
+(put 'redefine 'scheme-indent-function 1)

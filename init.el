@@ -39,6 +39,11 @@
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 (require 'elisp-format)
+(require 'w3m-load)
+(setq browse-url-browser-function 'w3m-browse-url)
+(require 'processing-mode)
+(add-to-list 'auto-mode-alist '("\\.pde$" . processing-mode))
+(setq processing-location "/usr/share/processing/")
 
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 
@@ -46,5 +51,6 @@
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\work-hours\\'" . time-mode))
+(add-to-list 'interpreter-mode-alist '("python2" . python-mode))
 
 (setq auto-mode-alist (append '() auto-mode-alist))

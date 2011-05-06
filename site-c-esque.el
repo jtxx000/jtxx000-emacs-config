@@ -49,7 +49,7 @@
   (if (or (= (point) (point-max))
           (save-excursion (forward-char) (c-esque/is-at-end-of-line)))
       (newline-under)
-    (newline-and-indent)))
+    (newline)))
 
 (defun c-esque-update-section-comment ()
   (interactive)
@@ -63,7 +63,7 @@
   (forward-line -2))
 
 (definit (c-esque c-mode-common-hook)
-  (auto-indent-hook)
+  (auto-indent-mode)
   (flyspell-prog-mode)
   (auto-fill-mode)
   (subword-mode)
@@ -72,8 +72,11 @@
     ("{"        . insert-brackets)
     ("<end>"    . c-esque/end-of-line)
     ("<right>"  . c-esque/forward-char)
-    ("<return>" . c-esque/newline)
     ("C-="      . c-esque-update-section-comment))
+
+  (set (make-local-variable 'auto-indent-mode-map) (copy-keymap auto-indent-mode-map))
+  (set-kbd-keys auto-indent-mode-map
+    ("<return>" . c-esque/newline))
 
   (if (system-is-osx)
       (set-kbd-keys ("A-<right>" . c-esque/end-of-line)))

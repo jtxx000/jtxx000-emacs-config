@@ -4,6 +4,7 @@
   ("C-z"         . kill-current-buffer)
   ("C-n"         . save-buffer)
   ("C-f"         . find-file)
+  ("C-S-f"       . find-file-other-window)
   ("C-b"         . switch-to-buffer)
   ("M-1"         . delete-other-windows)
   ("M-g"         . goto-line)
@@ -34,8 +35,9 @@
   ("C-S-c"       . compile)
   ("C-`"         . next-error)
   ("C-#"         . comment-or-uncomment-region)
-
-  ("C-+" . increment-word)
+  ("C-+"         . increment-word)
+  ("C-c c"       . org-capture)
+  ("C-c a"       . org-agenda)
 
   ("S-<up>"        . backward-up-list)
   ("C-S-<up>"      . up-list)
@@ -49,7 +51,7 @@
   ("S-<backspace>" . backward-kill-sexp)
   ("C-S-t"         . transpose-sexps)
   ("M-9"           . insert-parentheses)
-  ("M-0"           . move-past-close-and-reindent))
+  ("M-0"           . delete-window))
 
 (if (not (system-is-osx))
     (set-kbd-keys global ("M-<backspace>" . kill-entire-line)))
