@@ -10,3 +10,5 @@
     (display-file compilation-output-file)))
 
 (add-to-list 'compilation-finish-functions 'site-compilation-finish)
+
+(put 'compilation-output-file 'safe-local-variable 'stringp)

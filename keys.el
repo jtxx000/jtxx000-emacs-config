@@ -38,6 +38,8 @@
   ("C-+"         . increment-word)
   ("C-c c"       . org-capture)
   ("C-c a"       . org-agenda)
+  ("C-c l"       . org-store-link)
+  ("C-c i"       . identica)
 
   ("S-<up>"        . backward-up-list)
   ("C-S-<up>"      . up-list)

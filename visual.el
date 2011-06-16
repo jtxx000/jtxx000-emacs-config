@@ -10,8 +10,8 @@
 
 (require 'color-theme)
 (color-theme-initialize)
-(load-library "tango-colour-theme.el")
-(color-theme-tango)
+(load-library "color-theme-tangotango.el")
+(color-theme-tangotango)
 
 (setq show-paren-delay 0)
 (show-paren-mode t)

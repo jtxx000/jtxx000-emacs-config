@@ -1,17 +1,3 @@
-;; TODO '|void foo' M-d bug
-
-;; TODO C-<up> through
-;; /**
-;; * @defgroup atomics Atomics
-;; *
-;; * Components for performing atomic operations.
-;; * @{
-;; */
-
-;; TODO enter in c-esque should use auto-indent
-
-;; TODO whitespace leaks
-
 (defvar auto-indent/delete-char-function 'delete-char)
 (make-variable-buffer-local 'auto-indent/delete-char-function)
 (defvar auto-indent/backward-delete-char-function 'backward-delete-char-untabify)

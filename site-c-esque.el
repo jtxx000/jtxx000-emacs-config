@@ -74,6 +74,9 @@
     ("<right>"  . c-esque/forward-char)
     ("C-="      . c-esque-update-section-comment))
 
+  (set-kbd-keys c-mode-map
+    "C-c C-a")
+
   (set (make-local-variable 'auto-indent-mode-map) (copy-keymap auto-indent-mode-map))
   (set-kbd-keys auto-indent-mode-map
     ("<return>" . c-esque/newline))
@@ -82,4 +85,13 @@
       (set-kbd-keys ("A-<right>" . c-esque/end-of-line)))
 
   (c-set-offset 'substatement-open 0)
+  (add-hook 'auto-indent/line-change-hook 'c-esque/confine-to-line-end nil t))
+
+(definit js
+  (auto-indent-mode)
+  (subword-mode)
+  (set-kbd-keys
+    ("<end>"   . c-esque/end-of-line)
+    ("<right>" . c-esque/forward-char)
+    ("C-="     . c-esque-update-section-comment))
   (add-hook 'auto-indent/line-change-hook 'c-esque/confine-to-line-end nil t))

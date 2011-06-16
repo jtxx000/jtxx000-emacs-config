@@ -66,6 +66,9 @@
     ("C-'"           . lisp-duplicate-line)
     ("C-="           . lisp-update-section-comment)))
 
+(require 'rainbow-delimiters)
+(setq-default frame-background-mode 'dark)
+
 ;;;; scheme
 (definit scheme
   (site-lisp-init)
