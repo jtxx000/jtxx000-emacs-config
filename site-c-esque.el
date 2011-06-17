@@ -36,7 +36,9 @@
 
 (defun c-esque/confine-to-line-end ()
   (interactive)
-  (if (c-esque/is-at-end-of-line) (backward-char)))
+  (and (c-esque/is-at-end-of-line)
+       (not mark-active)
+       (backward-char)))
 
 (defun c-esque/forward-char ()
   (interactive)
@@ -63,23 +65,25 @@
   (forward-line -2))
 
 (definit (c-esque c-mode-common-hook)
+  (set-kbd-keys
+    ("{"        . insert-brackets)
+    ("<end>"    . c-esque/end-of-line)
+    ("<right>"  . c-esque/forward-char)
+    ("C-="      . c-esque-update-section-comment)
+    ("<return>" . c-esque/newline))
+
+  (preserve-key-bindings "<return>")
+
+  ;(add-to-list 'minor-mode-overriding-map-alist
+               ;(cons t (easy-mmode-define-keymap `(([return] . ,(key-binding [return]))))))
+
   (auto-indent-mode)
   (flyspell-prog-mode)
   (auto-fill-mode)
   (subword-mode)
 
-  (set-kbd-keys
-    ("{"        . insert-brackets)
-    ("<end>"    . c-esque/end-of-line)
-    ("<right>"  . c-esque/forward-char)
-    ("C-="      . c-esque-update-section-comment))
-
   (set-kbd-keys c-mode-map
     "C-c C-a")
-
-  (set (make-local-variable 'auto-indent-mode-map) (copy-keymap auto-indent-mode-map))
-  (set-kbd-keys auto-indent-mode-map
-    ("<return>" . c-esque/newline))
 
   (if (system-is-osx)
       (set-kbd-keys ("A-<right>" . c-esque/end-of-line)))

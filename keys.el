@@ -31,7 +31,7 @@
   ("M-$"         . calc)
   ("C-$"         . quick-calc)
   ("C-S-b"       . switch-to-buffer-other-window)
-  ("C-l"         . recenter-no-erase)
+  ;("C-l"         . recenter-no-erase)
   ("C-S-c"       . compile)
   ("C-`"         . next-error)
   ("C-#"         . comment-or-uncomment-region)

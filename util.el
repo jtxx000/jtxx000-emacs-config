@@ -131,3 +131,11 @@
   (interactive)
   (let ((fill-column (point-max)))
     (call-interactively 'fill-paragraph)))
+
+(defun preserve-key-bindings (&rest keys)
+  (add-to-list 'minor-mode-overriding-map-alist
+               (cons t
+                     (easy-mmode-define-keymap
+                      (loop for x in keys collect
+                            (let ((key (read-kbd-macro x)))
+                              (cons key (key-binding key))))))))

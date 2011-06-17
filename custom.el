@@ -4,9 +4,6 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(align-c++-modes (quote (c++-mode c-mode java-mode js-mode)))
- '(auto-indent-delete-line-char-remove-extra-spaces t)
- '(auto-indent-delete-trailing-whitespace-on-save-file t)
- '(auto-indent-global-mode t nil (auto-indent-mode))
  '(blink-matching-paren nil)
  '(campfire-domain "pennyace.campfirenow.com")
  '(campfire-ssl t)
