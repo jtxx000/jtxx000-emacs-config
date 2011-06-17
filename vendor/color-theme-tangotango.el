@@ -190,7 +190,7 @@
      (ecb-tag-header-face ((t (:background "#f57900"))))
      (magit-header ((t (:foreground "#edd400"))))
      (magit-diff-add ((t (:foreground "#729fcf"))))
-     (magit-item-highlight ((t (:weight extra-bold :inverse-video t))))
+     (magit-item-highlight ((t (:weight normal :background "#1f2324"))))
      (diff-header ((t (:background "gray30"))))
      (diff-index ((t (:foreground "#edd400" :bold t))))
      (diff-file-header ((t (:foreground "#eeeeec" :bold t))))

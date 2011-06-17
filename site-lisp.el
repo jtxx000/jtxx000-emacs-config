@@ -3,7 +3,7 @@
   (beginning-of-line)
   (if (= (point)
          (save-excursion (progn (forward-sexp) (line-beginning-position))))
-      (auto-indent/beginning-of-line)
+      (back-to-indentation)
     (end-of-line)
     (backward-sexp)))
 
@@ -37,6 +37,7 @@
 
 (definit (lisp emacs-lisp-mode-hook)
   (paredit-mode)
+  (set (make-local-variable 'autopair-dont-activate) t)
   (auto-indent-mode)
 
   (setf auto-indent/delete-char-function 'paredit-forward-delete)

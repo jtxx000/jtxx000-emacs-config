@@ -66,7 +66,6 @@
 
 (definit (c-esque c-mode-common-hook)
   (set-kbd-keys
-    ("{"        . insert-brackets)
     ("<end>"    . c-esque/end-of-line)
     ("<right>"  . c-esque/forward-char)
     ("C-="      . c-esque-update-section-comment)

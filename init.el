@@ -57,7 +57,7 @@
 
 ;(autoload 'magit-status "magit" nil t)
 
-(require 'egg)
+(require 'magit)
 (require 'filladapt)
 
 (load-library "site-maxima")
@@ -81,3 +81,11 @@
 
 (setq auto-mode-alist (append '() auto-mode-alist))
 (put 'erase-buffer 'disabled nil)
+
+(semantic-mode)
+(global-semantic-idle-completions-mode)
+(global-semantic-idle-local-symbol-highlight-mode)
+(global-semantic-idle-summary-mode)
+
+(require 'autopair)
+(autopair-global-mode)
