@@ -37,7 +37,11 @@
 (defun c-esque/confine-to-line-end ()
   (interactive)
   (and (c-esque/is-at-end-of-line)
-       (not mark-active)
+       (not (and mark-active
+                 (/= (line-beginning-position)
+                     (save-excursion
+                       (goto-char (mark))
+                       (line-beginning-position)))))
        (backward-char)))
 
 (defun c-esque/forward-char ()
@@ -51,7 +55,7 @@
   (if (or (= (point) (point-max))
           (save-excursion (forward-char) (c-esque/is-at-end-of-line)))
       (newline-under)
-    (newline)))
+    (newline-and-indent)))
 
 (defun c-esque-update-section-comment ()
   (interactive)

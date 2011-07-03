@@ -215,6 +215,8 @@
      (ediff-fine-diff-Ancestor ((t (:background "#222222"))))
      (ediff-fine-diff-B ((t (:background "#222222"))))
      (ediff-fine-diff-C ((t (:background "#222222"))))
+     (font-lock-function-name-face )
+     (ido-only-match ((t (:foreground "#edd400" :bold t))))
      )))
 
 (provide 'color-theme-tangotango)

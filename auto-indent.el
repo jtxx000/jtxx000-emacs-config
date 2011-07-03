@@ -25,8 +25,8 @@
       (progn (delete-indentation t)
              (save-restriction
                (narrow-to-region (point-at-bol) (point-at-eol))
-               (delete-trailing-whitespace)
-               (indent-according-to-mode)))
+               (delete-trailing-whitespace))
+             (indent-according-to-mode))
     (apply auto-indent/delete-char-function '(1))))
 
 (defun auto-indent/backward-delete-char ()

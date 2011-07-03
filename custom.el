@@ -10,6 +10,7 @@
  '(compilation-read-command nil)
  '(geiser-mode-autodoc-p nil)
  '(hippie-expand-try-functions-list (quote (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
+ '(ido-auto-merge-delay-time 99999)
  '(initial-scratch-message nil)
  '(js-indent-level 2)
  '(mac-command-modifier (quote alt))
@@ -20,7 +21,7 @@
  '(notmuch-search-oldest-first nil)
  '(notmuch-show-elide-same-subject t)
  '(notmuch-show-logo nil)
- '(org-agenda-files (quote ("~/research/stacked/README.org" "~/code/musicvis/README.org" "~/code/bibgrep/README.org" "~/edu/ee/README.org" "~/research/papers/waveform/README.org" "~/blog/README.org" "~/edu/math/comb/README.org" "~/misc/notes.org" "~/research/README.org" "~/code/arch.org" "~/code/README.org" "~/work/README.org" "~/edu/art/README.org" "~/README.org" "~/edu/school/README.org" "~/.emacs.d/README.org" "~/edu/math/calc/README.org" "~/misc/books.org" "~/misc/house.org" "~/edu/plt/README.org" "~/edu/music/README.org")))
+ '(org-agenda-files (quote ("~/research/stacked/README.org" "~/code/musicvis/README.org" "~/code/bibgrep/README.org" "~/edu/ee/README.org" "~/research/papers/waveform/README.org" "~/blog/README.org" "~/edu/math/comb/README.org" "~/misc/notes.org" "~/research/README.org" "~/code/arch.org" "~/code/README.org" "~/edu/art/README.org" "~/README.org" "~/edu/school/README.org" "~/.emacs.d/README.org" "~/edu/math/calc/README.org" "~/misc/books.org" "~/misc/house.org" "~/edu/plt/README.org" "~/edu/music/README.org")))
  '(org-agenda-todo-ignore-deadlines (quote all))
  '(org-agenda-todo-ignore-scheduled (quote all))
  '(org-babel-load-languages (quote ((haskell . t) (ruby . t) (emacs-lisp . t) (C . t) (sh . t))))
@@ -42,12 +43,16 @@
  '(revert-without-query (quote (".*")))
  '(rst-adornment-faces-alist (quote ((t . font-lock-keyword-face) (nil . font-lock-keyword-face) (1 . font-lock-function-name-face) (2 . font-lock-function-name-face) (3 . font-lock-function-name-face) (4 . font-lock-function-name-face) (5 . font-lock-function-name-face) (6 . font-lock-function-name-face))))
  '(scroll-bar-mode nil)
+ '(sh-basic-offset 2)
+ '(sh-indentation 2)
  '(standard-indent 2)
  '(tab-width 4)
- '(transient-mark-mode t))
+ '(transient-mark-mode t)
+ '(view-read-only t))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(magit-item-highlight ((t (:inverse-video nil :weight extra-bold))))
  '(org-date ((((class color) (background dark)) (:foreground "#729fcf" :underline t)))))

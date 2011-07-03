@@ -1,7 +1,7 @@
 (defvar compilation-output-file nil)
 
 (defun site-compilation-finish (buffer string)
-  (cond ((string-match "finished" string)
+  '(cond ((string-match "finished" string)
          (bury-buffer "*compilation*")
          (winner-undo)
          (message "Build successful."))

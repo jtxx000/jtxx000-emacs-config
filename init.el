@@ -14,7 +14,7 @@
 
 (load "haskell-mode-2.4/haskell-site-file.el")
 ;(autoload 'cycle-buffer "cycle-buffer" "Cycle forward." t)
-(require 'anything-config)
+;(require 'anything-config)
 ;(load "auctex.el" nil t t)
 ;(load "preview-latex.el" nil t t)
 (load-library "site-yasnippet")
@@ -32,6 +32,8 @@
 (require 'no-word)
 (add-to-list 'auto-mode-alist '("\\.doc\\'" . no-word))
 (require 'cycle-buffer)
+(require 'smex)
+(smex-initialize)
 (load-library "keys")
 (load-library "site-calendar")
 (require 'geiser-install nil t)
@@ -70,6 +72,11 @@
 
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+(add-to-list 'auto-mode-alist '("\\.lzz\\'" . c++-mode))
+(eval-after-load 'flymake
+  '(add-to-list 'flymake-allowed-file-name-masks '("\\.lzz\\'" flymake-simple-make-init)))
+
 (add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\work-hours\\'" . time-mode))
 (add-to-list 'interpreter-mode-alist '("python2" . python-mode))
@@ -84,8 +91,14 @@
 
 (semantic-mode)
 (global-semantic-idle-completions-mode)
-(global-semantic-idle-local-symbol-highlight-mode)
-(global-semantic-idle-summary-mode)
+;(global-semantic-idle-local-symbol-highlight-mode)
+;(global-semantic-idle-summary-mode)
 
 (require 'autopair)
 (autopair-global-mode)
+
+(require 'flymake-cursor)
+(require 'rfringe)
+
+(eval-after-load "speedbar" '(speedbar-add-supported-extension ".lzz"))
+(setq auto-save-hook (delete 'semanticdb-save-all-db-idle auto-save-hook))

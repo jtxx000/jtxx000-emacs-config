@@ -73,6 +73,7 @@
 ;;;; scheme
 (definit scheme
   (site-lisp-init)
+  ;(set (make-local-variable 'autopair-dont-activate) t)
   (set-kbd-keys
     ("C-c C-d" . geiser-doc-look-up-manual)))
 

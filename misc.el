@@ -6,4 +6,5 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 (winner-mode)
-(iswitchb-mode t)
+(require 'ido)
+(ido-mode t)
